@@ -1,0 +1,27 @@
+extend type Query {
+  # getHolidays: [Holiday!]!
+  getNowInJST: Date!
+  getDaysWithYearMonthForLastThreeMonths: [DaysWithYearMonth!]!
+}
+
+scalar Date
+
+"""
+Day is day of the month and dayOfWeek is the day of the week
+"""
+type Day {
+  day: String!
+  dayOfWeek: String!
+  weekNumber: Int!
+  isPast: Boolean!
+}
+
+type DaysWithYearMonth {
+  year: String!
+  month: String!
+  days: [Day!]!
+}
+
+# type Holiday {
+#   date: String!
+# }

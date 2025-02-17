@@ -1,0 +1,29 @@
+extend type Query {
+  getUserIcon: Asset!
+  getUserIcons: [Asset!]!
+}
+
+extend type Mutation {
+  createAsset(input: CreateAssetInput!): Asset!
+  updateAsset(input: UpdateAssetInput!): Asset!
+}
+
+"""
+input
+"""
+input CreateAssetInput {
+  assetID: ID!
+}
+
+input UpdateAssetInput {
+  assetID: ID!
+}
+
+"""
+type
+"""
+type Asset {
+  id: ID!
+  name: String!
+  fileName: String!
+}

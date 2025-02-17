@@ -1,0 +1,33 @@
+# extend type Query {
+#   getFreetimesByDate(input: getFreetimesByDateInput!): [Freetime]!
+#   getFreetimes: [Freetime]!
+# }
+
+# extend type Mutation {
+#   createFreetime(input: createFreetimeInput!): createFreetimePayload!
+# }
+
+# input getFreetimesByDateInput {
+#   date: Date!
+# }
+
+# input createFreetimeInput {
+#   userID: String!
+#   date: Date!
+#   startHour: Int!
+#   startMinute: Int!
+#   endHour: Int!
+#   endMinute: Int!
+# }
+
+# type Freetime {
+#   date: Date!
+#   startHour: Int!
+#   startMinute: Int!
+#   endMinute: Int!
+#   endHour: Int!
+# }
+
+# type createFreetimePayload implements BasePayload {
+#   isSuccess: Boolean!
+# }
