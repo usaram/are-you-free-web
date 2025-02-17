@@ -1,4 +1,4 @@
-name: Sync Schema to Repo Web
+name: Sync Schema to Repo Api
 
 on:
   push:
@@ -10,30 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo Api
-      uses: actions/checkout@v2
-      with:
-        repository: masaru-nohara/are-you-free-api
-        token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
-
     - name: Checkout repo Web
       uses: actions/checkout@v2
       with:
         repository: masaru-nohara/are-you-free-web
-        path: are-you-free-web
         token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
-    - name: Copy schema to repo Web
-      run: |
-        cp -r schema/* are-you-free-web/schema/
+    - name: Checkout repo Api
+      uses: actions/checkout@v2
+      with:
+        repository: masaru-nohara/are-you-free-api
+        path: are-you-free-api
+        token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
-    - name: Commit and push changes to repo A
+    - name: Copy schema to repo Api
       run: |
-        cd are-you-free-web
+        cp -r schema/* are-you-free-api/schema/
+
+    - name: Commit and push changes to repo Api
+      run: |
+        cd are-you-free-api
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add schema/*
-        git commit -m "Sync schema from are-you-free-api"
+        git commit -m "Sync schema from are-you-free-web"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GH_FILES_SYNC_TOKEN }}
