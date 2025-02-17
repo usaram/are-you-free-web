@@ -22,6 +22,9 @@ jobs:
         repository: masaru-nohara/are-you-free-api
         path: are-you-free-api
         token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
+    - name: Clean up schema in repo Api
+      run: |
+        rm -rf are-you-free-api/schema/*
 
     - name: Copy schema to repo Api
       run: |
@@ -32,8 +35,8 @@ jobs:
         cd are-you-free-api
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add --all schema/*
-        git diff-index --quiet HEAD || git commit -m "Sync schema from are-you-free-web"
+        git add schema/*
+        git commit -m "Sync schema from are-you-free-web"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GH_FILES_SYNC_TOKEN }}
