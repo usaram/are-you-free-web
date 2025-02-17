@@ -1,0 +1,19 @@
+name: Sync Files
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - schema/*
+  workflow_dispatch:
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Run GitHub File Sync
+        uses: wadackel/files-sync-action@v2
+        with:
+          github_token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
