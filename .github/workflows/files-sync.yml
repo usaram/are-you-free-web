@@ -1,4 +1,4 @@
-name: Sync Schema to Repo Api
+name: Sync Schema to Repo Apia
 
 on:
   push:
