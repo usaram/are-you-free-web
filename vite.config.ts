@@ -11,7 +11,7 @@ export default defineConfig({
 	},
 
 	preview: {
-		allowedHosts: ['are-you-free-prd-web-cloud-run-279214907386.asia-northeast1.run.app']
+		allowedHosts: ['*']
 	},
 
 	test: {
