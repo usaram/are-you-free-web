@@ -6,9 +6,13 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit(), tailwindcss()],
 
+	server: {
+		port: 5173
+	},
+
 	preview: {
 		allowedHosts: ['are-you-free-prd-web-cloud-run-279214907386.asia-northeast1.run.app']
-},
+	},
 
 	test: {
 		workspace: [
