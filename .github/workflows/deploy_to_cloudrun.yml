@@ -51,5 +51,5 @@ jobs:
       - name: Push
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
-      # - name: Deploy
-      #   run: gcloud run deploy $REGISTRY_NAME --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region $REGION --allow-unauthenticated
+      - name: Deploy
+        run: gcloud run deploy are-you-free-prd-api-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated
