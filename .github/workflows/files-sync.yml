@@ -35,7 +35,7 @@ jobs:
         cd are-you-free-api
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add --all schema/*
+        git add -A schema/*
         git diff-index --quiet HEAD || git commit -m "Sync schema from are-you-free-web"
         git push
       env:
