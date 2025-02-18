@@ -7,11 +7,12 @@ export default defineConfig({
 	plugins: [sveltekit(), tailwindcss()],
 
 	server: {
-		port: 5173
-	},
-
-	preview: {
-		allowedHosts: ['*']
+		cors: {
+			origin: ['*'],
+			methods: ['GET', 'POST'],
+			allowedHeaders: ['Content-Type']
+		},
+		allowedHosts: ['*'] //added this
 	},
 
 	test: {
