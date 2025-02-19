@@ -19,21 +19,21 @@ jobs:
     - name: Checkout repo Api
       uses: actions/checkout@v2
       with:
-        repository: masaru-nohara/are-you-free-api
-        path: are-you-free-api
+        repository: masaru-nohara/are-you-free-api/
+        path: are-you-free-api/
         token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
     - name: Clean up schema in repo Api
       run: |
-        rm -rf are-you-free-api/schema/*
+        rm -rf are-you-free-api//schema/*
 
     - name: Copy schema to repo Api
       run: |
-        cp -r schema/* are-you-free-api/schema/
+        cp -r schema/* are-you-free-api//schema/
 
     - name: Commit and push changes to repo Api
       run: |
-        cd are-you-free-api
+        cd are-you-free-api/
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add -A
