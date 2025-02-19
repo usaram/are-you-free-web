@@ -1,13 +1,13 @@
 .PHONY: build format lint codegen
 
 build:
-	npm build
+	pnpm run build
 
 format:
-	npm format
+	pnpm run format
 
 lint:
-	npm lint:fix
+	pnpm run lint:fix
 
 codegen:
-	npm codegen
+	pnpm run codegen
