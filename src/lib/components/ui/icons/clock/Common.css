@@ -1,5 +1,5 @@
 .clock-container {
-	background-color: hsl(0, 0%, 96%);
+	background-color: hsl(0, 0%, 96%); /* neutral-100 */
 	border-radius: calc(infinity * 1px);
 	padding: calc(var(--spacing) * 12);
 	/* box-shadow: var(--shadow-xl); */
@@ -10,5 +10,5 @@
 }
 
 .clock-icon {
-	color: var(--color-sky-800);
+	color: oklch(0.293 0.066 243.157); /* sky-900 */
 }
