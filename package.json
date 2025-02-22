@@ -7,7 +7,7 @@
     "dev": "vite dev --host --port 5173",
     "build": "vite build",
     "preview": "vite preview --host --port 5173",
-    "start": "vite preview --host --port 5173",
+    "start": "svelte-kit sync && vite preview --host --port 5173",
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -54,5 +54,5 @@
       "esbuild",
       "svelte-preprocess"
     ]
-  }
+  },
 }
