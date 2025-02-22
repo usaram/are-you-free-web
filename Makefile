@@ -1,5 +1,8 @@
 .PHONY: build format lint codegen
 
+install:
+	pnpm install $(filter-out $@,$(MAKECMDGOALS))
+
 build:
 	pnpm run build
 

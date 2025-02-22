@@ -6,14 +6,14 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [sveltekit(), tailwindcss()],
 
-  server: {
-    cors: {
-      origin: ["*"],
-      methods: ["GET", "POST"],
-      allowedHeaders: ["Content-Type"],
-    },
-    allowedHosts: ["*"], //added this
-  },
+  // server: {
+  //   cors: {
+  //     origin: ["*"],
+  //     methods: ["GET", "POST"],
+  //     allowedHeaders: ["Content-Type"],
+  //   },
+  //   allowedHosts: ["*"], //added this
+  // },
 
   test: {
     workspace: [
