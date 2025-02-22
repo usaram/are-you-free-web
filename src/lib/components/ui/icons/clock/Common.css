@@ -1,0 +1,14 @@
+.clock-container {
+	background-color: hsl(0, 0%, 96%);
+	border-radius: calc(infinity * 1px);
+	padding: calc(var(--spacing) * 12);
+	/* box-shadow: var(--shadow-xl); */
+	box-shadow:
+		0 20px 25px -5px rgb(0 0 0 / 0.1),
+		0 8px 10px -6px rgb(0 0 0 / 0.1);
+	margin-bottom: calc(var(--spacing) * 8);
+}
+
+.clock-icon {
+	color: var(--color-sky-800);
+}

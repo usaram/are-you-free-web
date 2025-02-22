@@ -3,7 +3,7 @@ name: Sync Schema to Repo Api
 on:
   push:
     paths:
-      - "schema/**"
+      - 'schema/**'
 
 jobs:
   sync:
