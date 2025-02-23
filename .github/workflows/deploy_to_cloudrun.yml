@@ -46,7 +46,7 @@ jobs:
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
       - name: Build
-        run: |
+        run: >
           docker build
           --platform linux/amd64
           -f are-you-free-infra/deploys/production/web/Dockerfile
@@ -56,7 +56,7 @@ jobs:
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
       - name: Deploy
-        run: |
+        run: >
           gcloud run
           deploy are-you-free-prd-web-cloud-run
           --region ${{ env.REGION }}
