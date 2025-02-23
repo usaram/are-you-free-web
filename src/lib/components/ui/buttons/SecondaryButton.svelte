@@ -1,7 +1,7 @@
 <script lang='ts'>
   export let name: string = ''
-  export let height: number = 12
-  export let width: number = 64
+  export let height: string = ''
+  export let width: string = ''
   export let type: 'button' | 'submit' | 'reset' = 'button'
 </script>
 

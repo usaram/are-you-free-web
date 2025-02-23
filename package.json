@@ -17,7 +17,8 @@
     "test": "npm run test:unit -- --run"
   },
   "dependencies": {
-    "@sveltejs/adapter-node": "^5.2.12"
+    "@sveltejs/adapter-node": "^5.2.12",
+    "@types/node": "^22.13.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
