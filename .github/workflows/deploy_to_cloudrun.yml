@@ -51,6 +51,6 @@ jobs:
       - name: Push
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
-      - name: Deploy
-        run: gcloud run deploy are-you-free-prd-web-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --port 5173
+      # - name: Deploy
+      #   run: gcloud run deploy are-you-free-prd-web-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --port 5173
         # run: gcloud run deploy are-you-free-prd-web-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --platform managed --port 5173
