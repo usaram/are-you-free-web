@@ -46,11 +46,22 @@ jobs:
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
       - name: Build
-        run: docker build --platform linux/amd64 -f are-you-free-infra/deploys/production/web/Dockerfile -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
+        run: |
+          docker build
+          --platform linux/amd64
+          -f are-you-free-infra/deploys/production/web/Dockerfile
+          -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
 
       - name: Push
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
-      # - name: Deploy
-      #   run: gcloud run deploy are-you-free-prd-web-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --port 5173
+      - name: Deploy
+        run: |
+          gcloud run
+          deploy are-you-free-prd-web-cloud-run
+          --region ${{ env.REGION }}
+          --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+          --port 5173
+          --platform managed
+          --allow-unauthenticated
         # run: gcloud run deploy are-you-free-prd-web-cloud-run --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --platform managed --port 5173
