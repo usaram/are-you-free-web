@@ -18,5 +18,10 @@ format:
 lint:
 	pnpm run lint:fix
 
+cache-clear:
+	rm -rf node_modules
+	rm pnpm-lock.yaml
+	pnpm store prune
+
 codegen:
 	pnpm run codegen
