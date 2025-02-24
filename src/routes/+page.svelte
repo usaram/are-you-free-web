@@ -20,7 +20,7 @@
     <h1 class='text-4xl font-bold text-sky-800 mb-2'>
       Are you free?
     </h1>
-    <p class='text-sky-600'>Schedule your free time</p>
+    <p class='text-sky-600'>Schedule your free time!</p>
   </div>
   <svelte:component this={clockIcon} size={120} />
   <div class='flex justify-center items-center mt-6 space-x-2'>
