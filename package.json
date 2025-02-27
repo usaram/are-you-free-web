@@ -50,5 +50,6 @@
     "typescript-eslint": "^8.20.0",
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
-  }
+  },
+	"packageManager": "pnpm@latest"
 }
