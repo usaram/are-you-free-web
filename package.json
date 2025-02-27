@@ -51,5 +51,5 @@
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },
-	"packageManager": "pnpm@latest"
+	"packageManager": "pnpm@10.5.2"
 }
