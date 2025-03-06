@@ -1,7 +1,7 @@
+import path from 'node:path'
 import { sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
-import path from 'path'
+import { defineConfig } from 'vite'
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({

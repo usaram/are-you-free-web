@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@10.5.2",
   "scripts": {
     "dev": "vite dev --host --port 5173",
     "build": "vite build",
@@ -51,11 +52,10 @@
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },
-	"packageManager": "pnpm@10.5.2",
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"svelte-preprocess"
-		]
-	}
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "svelte-preprocess"
+    ]
+  }
 }

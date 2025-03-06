@@ -1,7 +1,14 @@
 <script lang='ts'>
+	import { goto } from '$app/navigation';
   import PrimaryButton from '@/lib/components/ui/buttons/PrimaryButton.svelte'
   import SecondaryButton from '@/lib/components/ui/buttons/SecondaryButton.svelte'
   import { onMount } from 'svelte'
+
+	export function handleAuth(mode: 'signin' | 'signup') {
+		console.log('mode')
+		console.log('mode', mode)
+		goto(`/auth?mode=${mode}`)
+	}
 
   export let data: { clockIcon: string }
   let clockIcon: any
@@ -22,9 +29,19 @@
     </h1>
     <p class='text-sky-600'>Schedule your free time!</p>
   </div>
-  <svelte:component this={clockIcon} size={120} />
-  <div class='flex justify-center items-center mt-6 space-x-2'>
-    <PrimaryButton name='Sign In' height=full width=3xs/>
-    <SecondaryButton name='Sign Up' height=full width=3xs />
+  <svelte:component this={clockIcon} size={160} />
+  <div class='flex h-12 mt-8 w-120'>
+    <PrimaryButton
+			onclick={() => handleAuth('signin')}
+			name='Sign In'
+			height='full'
+			width='full'
+		/>
+    <SecondaryButton
+			onclick={() => handleAuth('signup')}
+			name='Sign Up'
+			height='full'
+			width='full'
+		/>
   </div>
 </div>
