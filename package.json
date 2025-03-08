@@ -9,7 +9,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"start": "vite preview --port 5173",
-		"prepare": "svelte-kit sync || echo ''",
+		"prepare": "husky install",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "eslint . --fix",
@@ -17,12 +17,6 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run"
 	},
-	"lint-staged": {
-    "*.js": "eslint --fix",
-    "*.svelte": "eslint --fix",
-    "*.css": "stylelint --fix",
-    "*.scss": "stylelint --fix"
-  },
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.12",
 		"@types/node": "^22.13.5"
@@ -43,7 +37,9 @@
 		"eslint-plugin-format": "^1.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.14.0",
+		"husky": "^9.1.7",
 		"jsdom": "^25.0.1",
+		"lint-staged": "^15.4.3",
 		"lucide-svelte": "^0.475.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
@@ -68,5 +64,11 @@
 			"esbuild",
 			"svelte-preprocess"
 		]
+	},
+	"lint-staged": {
+		"*.{ts, tsx}": "eslint --fix",
+		"*.svelte": "eslint --fix",
+		"*.css": "stylelint --fix",
+		"*.scss": "stylelint --fix"
 	}
 }
