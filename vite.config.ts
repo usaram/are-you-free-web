@@ -5,20 +5,20 @@ import { defineConfig } from 'vite'
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
-  plugins: [sveltekit(), tailwindcss()],
+	plugins: [sveltekit(), tailwindcss()],
 
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-  },
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, 'src'),
+		},
+	},
 
-  // server: {
-  //   cors: {
-  //     origin: ["*"],
-  //     methods: ["GET", "POST"],
-  //     allowedHeaders: ["Content-Type"],
-  //   },
-  //   allowedHosts: ["*"], //added this
-  // },
+	// server: {
+	//   cors: {
+	//     origin: ["*"],
+	//     methods: ["GET", "POST"],
+	//     allowedHeaders: ["Content-Type"],
+	//   },
+	//   allowedHosts: ["*"], //added this
+	// },
 })
