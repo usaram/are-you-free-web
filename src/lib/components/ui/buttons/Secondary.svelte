@@ -1,3 +1,4 @@
+<!-- filepath: /home/masaru/work/app/are-you-free/are-you-free-web/src/lib/components/ui/buttons/PrimaryButton.svelte -->
 <script lang='ts'>
   export let name: string = ''
   export let height: string = ''
@@ -9,17 +10,17 @@
 <button
   {type}
   class='
-    h-{height}
-    w-{width}
-    bg-neutral-50
-    text-black
-    hover:bg-neutral-200
-    border
-    border-neutral-400
-    rounded-lg
-    p-3
+		{height}
+		{width}
+		text-base
+		bg-sky-800
+		text-[#fafafa]
+		hover:bg-sky-600
+		rounded-lg
+		transition-all
+		duration-300
   '
-	on:click={onclick}
+  on:click={onclick}
 >
   {name}
 </button>
