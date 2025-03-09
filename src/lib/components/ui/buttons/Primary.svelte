@@ -15,7 +15,7 @@
 		text-base
 		text-black
 		border
-		border-neutral-400
+		border-neutral-200
 		bg-neutral-50
 		hover:bg-neutral-200
 		rounded-lg
