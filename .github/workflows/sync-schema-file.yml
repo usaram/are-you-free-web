@@ -16,20 +16,25 @@ jobs:
           repository: usaram-arohna/are-you-free-web
           token: ${{ secrets.GH_ACTIONS_SYNC_SCHEMA_FILE }}
 
+      - name: Get current branch name
+        id: get_branch
+        run: echo "branch_name=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
       - name: Checkout Api Repository
         uses: actions/checkout@v2
         with:
           repository: usaram-arohna/are-you-free-api
           path: are-you-free-api/
+          ref: ${{ env.branch_name }}
           token: ${{ secrets.GH_ACTIONS_SYNC_SCHEMA_FILE }}
 
       - name: Clean up schema in Api Repository
         run: |
-          rm -rf are-you-free-api//schema/*
+          rm -rf are-you-free-api/schema/*
 
       - name: Copy schema to Api Repository
         run: |
-          cp -r schema/* are-you-free-api//schema/
+          cp -r schema/* are-you-free-api/schema/
 
       - name: Commit and push changes to Api Repository
         run: |
@@ -38,6 +43,6 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add -A
           git diff-index --quiet HEAD || git commit -m "Sync schema from are-you-free-web"
-          git push
+          git push origin ${{ env.branch_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_SYNC_SCHEMA_FILE }}
