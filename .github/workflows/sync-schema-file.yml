@@ -1,4 +1,4 @@
-name: Sync Schema to Repo Api
+name: Sync Schema File to Api Repository
 
 on:
   push:
@@ -10,28 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo Web
+      - name: Checkout Web Repository
         uses: actions/checkout@v2
         with:
-          repository: usaram/are-you-free-web
+          repository: usaram-arohna/are-you-free-web
           token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
-      - name: Checkout repo Api
+      - name: Checkout Api Repository
         uses: actions/checkout@v2
         with:
-          repository: usaram/are-you-free-api/
+          repository: usaram-arohna/are-you-free-api
           path: are-you-free-api/
           token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
-      - name: Clean up schema in repo Api
+      - name: Clean up schema in Api Repository
         run: |
           rm -rf are-you-free-api//schema/*
 
-      - name: Copy schema to repo Api
+      - name: Copy schema to Api Repository
         run: |
           cp -r schema/* are-you-free-api//schema/
 
-      - name: Commit and push changes to repo Api
+      - name: Commit and push changes to Api Repository
         run: |
           cd are-you-free-api/
           git config --global user.name 'github-actions[bot]'
