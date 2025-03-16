@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repo Web
         uses: actions/checkout@v2
         with:
-          repository: masaru-nohara/are-you-free-web
+          repository: usaram/are-you-free-web
           token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
       - name: Checkout repo Api
         uses: actions/checkout@v2
         with:
-          repository: masaru-nohara/are-you-free-api/
+          repository: usaram/are-you-free-api/
           path: are-you-free-api/
           token: ${{ secrets.GH_FILES_SYNC_TOKEN }}
 
