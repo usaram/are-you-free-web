@@ -16,4 +16,5 @@ type
 type SignInWithGooglePayload {
   username: String!
 	token: String!
+	
 }
