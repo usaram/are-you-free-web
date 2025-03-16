@@ -3,7 +3,7 @@
 	"type": "module",
 	"version": "0.0.1",
 	"private": true,
-	"packageManager": "pnpm@10.6.1",
+	"packageManager": "pnpm@10.6.3",
 	"scripts": {
 		"dev": "vite dev --host --port 5173",
 		"build": "vite build",
@@ -15,7 +15,8 @@
 		"format": "eslint . --fix",
 		"lint": "eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run"
+		"test": "npm run test:unit -- --run",
+		"codegen": "graphql-codegen"
 	},
 	"dependencies": {
 		"@auth/core": "^0.38.0",
@@ -27,6 +28,9 @@
 		"@antfu/eslint-config": "^4.3.0",
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
+		"@graphql-codegen/cli": "^5.0.5",
+		"@graphql-codegen/typescript-graphql-request": "^6.2.0",
+		"@graphql-codegen/typescript-resolvers": "^4.4.4",
 		"@sveltejs/adapter-auto": "^4.0.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.16.0",
@@ -68,7 +72,10 @@
 		]
 	},
 	"lint-staged": {
-		"*.{ts, tsx}": "eslint --fix",
+		"*.{ts, tsx}": [
+			"sh -c 'if [ \"$1\" != \"src/lib/graphs/generated/types.ts\" ]; then eslint --fix \"$1\"; fi' --",
+			"git add"
+		],
 		"*.svelte": "eslint --fix",
 		"*.css": "stylelint --fix",
 		"*.scss": "stylelint --fix"

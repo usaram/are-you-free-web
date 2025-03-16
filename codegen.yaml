@@ -1,0 +1,17 @@
+overwrite: true
+schema: './schema/*.graphql'
+documents: 'src/lib/graphs/**/*.ts'
+generates:
+  src/lib/graphs/generated/types.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-resolvers'
+      - 'typescript-graphql-request'
+    config:
+      useTypeImports: true
+      enumsAsTypes: true
+      avoidOptionals: true
+      scalars:
+        DateTime: 'string'
+      importFrom: 'graphql'

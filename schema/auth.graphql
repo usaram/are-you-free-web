@@ -1,38 +1,19 @@
 extend type Mutation {
-  signup(input: SignupInput!): SignupPayload!
-
-  login(input: LoginInput!): LoginPayload!
-  loginWithGoogle(input: LoginWithGoogleInput!): LoginPayload!
+  signInWithGoogle(input: SignInWithGoogleInput!): SignInWithGooglePayload!
 }
 
 """
 input
 """
-input SignupInput {
-  nickname: String!
-  email: String!
-  password: String!
-  confirmPassword: String!
-}
-
-input LoginInput {
-  email: String!
-  password: String!
-}
-
-input LoginWithGoogleInput {
-  nickname: String!
+input SignInWithGoogleInput {
+  username: String!
   email: String!
 }
 
 """
 type
 """
-type SignupPayload implements BasePayload {
-  isSuccess: Boolean!
-}
-
-type LoginPayload {
-  nickname: String!
-  token: String!
+type SignInWithGooglePayload {
+  username: String!
+	token: String!
 }

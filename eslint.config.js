@@ -8,7 +8,7 @@ export default antfu(
 		},
 		typescript: true,
 		svelte:     true,
-		ignores:    ['dist', 'node_modules', 'statics'],
+		ignores:    ['build/', '.svelte-kit/', 'dist/'],
 	},
 	{
 		files: ['*.svelte'],
