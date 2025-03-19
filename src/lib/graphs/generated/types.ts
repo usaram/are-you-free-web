@@ -35,7 +35,7 @@ export type MutationSignInWithGoogleArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  helloBackend: Scalars['String']['output'];
+  healthCheckForBackend: Scalars['String']['output'];
 };
 
 /** input */
@@ -57,6 +57,11 @@ export type SignInWithGoogleMutationVariables = Exact<{
 
 
 export type SignInWithGoogleMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInWithGooglePayload', username: string, token: string } };
+
+export type HealthCheckForBackendQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HealthCheckForBackendQuery = { __typename?: 'Query', healthCheckForBackend: string };
 
 
 
@@ -163,7 +168,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  helloBackend: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  healthCheckForBackend: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type SignInWithGooglePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInWithGooglePayload'] = ResolversParentTypes['SignInWithGooglePayload']> = {
@@ -189,6 +194,11 @@ export const SignInWithGoogleDocument = gql`
   }
 }
     `;
+export const HealthCheckForBackendDocument = gql`
+    query HealthCheckForBackend {
+  healthCheckForBackend
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -199,6 +209,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     SignInWithGoogle(variables: SignInWithGoogleMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithGoogleMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SignInWithGoogleMutation>(SignInWithGoogleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithGoogle', 'mutation', variables);
+    },
+    HealthCheckForBackend(variables?: HealthCheckForBackendQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HealthCheckForBackendQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<HealthCheckForBackendQuery>(HealthCheckForBackendDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HealthCheckForBackend', 'query', variables);
     }
   };
 }

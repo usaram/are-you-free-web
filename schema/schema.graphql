@@ -11,7 +11,7 @@ type Query
 type Mutation
 
 extend type Query {
-  helloBackend: String!
+  healthCheckForBackend: String!
 }
 
 interface BasePayload {

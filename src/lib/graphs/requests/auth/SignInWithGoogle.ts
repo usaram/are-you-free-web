@@ -20,7 +20,7 @@ export async function SignInWithGoogle({
 		},
 	}
 
-	const { data, err } = await client.request<SignInWithGoogleMutation>({
+	const { res, err } = await client.request<SignInWithGoogleMutation>({
 		query:     mutation.SignInWithGoogle,
 		variables: args,
 	})
@@ -28,5 +28,5 @@ export async function SignInWithGoogle({
 		return [null, err]
 	}
 
-	return [data.payload, null]
+	return [res.payload, null]
 }

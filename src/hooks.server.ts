@@ -1,6 +1,7 @@
 import { dynamic } from '@/lib/configs/env/dynamic.server'
 import { SignInWithGoogle } from '@/lib/graphs/services/auth/SignInWithGoogle'
 import Google from '@auth/core/providers/google'
+import { SvelteKitAuth } from '@auth/sveltekit'
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	providers: [
@@ -65,9 +66,9 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		// },
 	},
 	pages: {
-		// signIn: '/signup',
+		signIn: '/signin',
 		// signOut: '/login',
 		// newUser: '/user',
-		error: '/auth/error',
+		error:  '/auth/error',
 	},
 })

@@ -3,7 +3,7 @@ import type { JWT as DefaultJWT, DefaultSession } from '@auth/core/types'
 declare module '@auth/core/types' {
 	interface User {
 		id:       string
-		nickname: string
+		username: string
 	}
 	interface Session extends DefaultSession {
 		user: {
