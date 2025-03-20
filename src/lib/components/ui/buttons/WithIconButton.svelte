@@ -9,7 +9,7 @@
 	export let border: string = ''
 	export let borderColor: string = ''
 	export let type: 'button' | 'submit' | 'reset' = 'button'
-	export let onclick: ()=> void
+	export let onclick: (e: MouseEvent)=> void
 </script>
 
 <button

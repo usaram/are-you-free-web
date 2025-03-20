@@ -1,6 +1,6 @@
 <script lang='ts'>
-	import Secondary from '@/lib/components/ui/buttons/Secondary.svelte'
-	import WithIcon from '@/lib/components/ui/buttons/WithIcon.svelte'
+	import Secondary from '@/lib/components/ui/buttons/SecondaryButton.svelte'
+	import WithIcon from '@/lib/components/ui/buttons/WithIconButton.svelte'
 	import Input from '@/lib/components/ui/forms/Input.svelte'
 	import GitHubIcon from '@/lib/components/ui/statics/GitHubIcon.svelte'
 	import GoogleIcon from '@/lib/components/ui/statics/GoogleIcon.svelte'

@@ -12,11 +12,13 @@ import { mutation } from '@/lib/graphs/schema/mutation'
 export async function SignInWithGoogle({
 	username,
 	email,
+	exp,
 }: SignInWithGoogleInput): Promise<[SignInWithGooglePayload | null, err]> {
 	const args: { input: SignInWithGoogleInput } = {
 		input: {
 			username,
 			email,
+			exp,
 		},
 	}
 
@@ -25,6 +27,7 @@ export async function SignInWithGoogle({
 		variables: args,
 	})
 	if (err) {
+		console.error('Request Layer, Error signing in with Google:', err)
 		return [null, err]
 	}
 

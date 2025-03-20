@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import { goto } from '$app/navigation'
-	import PrimaryButton from '@/lib/components/ui/buttons/Primary.svelte'
-	import SecondaryButton from '@/lib/components/ui/buttons/Secondary.svelte'
+	import PrimaryButton from '@/lib/components/ui/buttons/PrimaryButton.svelte'
+	import SecondaryButton from '@/lib/components/ui/buttons/SecondaryButton.svelte'
 
 	export let isSignIn: boolean = false
 	export let isSignUp: boolean = false

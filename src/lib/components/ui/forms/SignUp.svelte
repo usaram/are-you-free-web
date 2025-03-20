@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import Secondary from '@/lib/components/ui/buttons/Secondary.svelte'
+	import Secondary from '@/lib/components/ui/buttons/SecondaryButton.svelte'
 	import Input from '@/lib/components/ui/forms/Input.svelte'
 	import Logo from '@/lib/components/ui/statics/Logo.svelte'
 </script>
