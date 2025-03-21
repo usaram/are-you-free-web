@@ -10,6 +10,12 @@
 	import { SignIn } from '@auth/sveltekit/components'
 </script>
 
+const providers = [
+	'x'
+	'google',
+	'github',
+]
+
 <Layout>
 	<div class='w-[50%] h-[90%] mt-10 mx-auto shadow-lg rounded-lg border border-neutral-200'>
 		<form class='w-[60%] flex flex-col m-auto'>
@@ -55,7 +61,6 @@
 					slot='submitButton'
 					class='flex w-86 items-center space-x-2'
 				>
-
 					<WithIconButton
 						icon={XIcon}
 						iconColor='text-white'
@@ -92,6 +97,10 @@
 					<a href='/signup' class='text-black'>Sign Up</a>
 				</p>
 			</div>
+
+			<signIn>
+				hoge
+			</signIn>
 		</div>
 	</div>
 </Layout>

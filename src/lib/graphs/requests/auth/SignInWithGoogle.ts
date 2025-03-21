@@ -18,7 +18,6 @@ export async function SignInWithGoogle({
 		input: {
 			username,
 			email,
-			exp,
 		},
 	}
 

@@ -56,7 +56,8 @@ class GraphQLClientClass {
 }
 
 export { GraphQLClientClass }
-export const client = new GraphQLClientClass('http://localhost:1323/api/query')
+export const client = new GraphQLClientClass('http://are-you-free-local-api:1323/api/query')
+// export const client = new GraphQLClientClass('http://localhost:1323/api/query')
 // const clientApiEndpoint = `${constants.envs.public.clientApiEndpoint}:${constants.envs.public.apiPort}${constants.envs.public.graphqlHandlerPath}`
 // const serverApiEndpoint = `${constants.envs.public.serverApiEndpoint}:${constants.envs.public.apiPort}${constants.envs.public.graphqlHandlerPath}`
 

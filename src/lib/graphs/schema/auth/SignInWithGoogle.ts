@@ -13,6 +13,5 @@ export const SIGN_IN_WITH_GOOGLE_INPUT = gql`
 	input SignInWithGoogle {
 		username: String!
 		email: String!
-		exp: Int!
 	}
 `
