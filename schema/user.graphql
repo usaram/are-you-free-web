@@ -1,0 +1,33 @@
+extend type Query {
+  users: [User]!
+}
+
+extend type Mutation {
+  createUser(input: CreateUserInput!): CreateUserPayload!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  isAdmin: Boolean!
+  isActive: Boolean!
+
+	icon: Icon!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  confirmPassword: String!
+}
+
+type CreateUserPayload implements BasePayload {
+  isSuccess: Boolean!
+}
+
+"""
+	The icon type is used to represent the icon of a user
+"""

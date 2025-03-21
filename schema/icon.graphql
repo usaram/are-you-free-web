@@ -1,0 +1,24 @@
+extend type Query {
+  getIcon: Icon!
+  getIcons: [Icon!]!
+}
+
+extend type Mutation {
+  updateIcon(input: UpdateIconInput!): Icon!
+}
+
+"""
+input
+"""
+input UpdateIconInput {
+  iconID: ID!
+}
+
+"""
+type
+"""
+type Icon {
+  id: ID!
+  name: String!
+  fileName: String!
+}
