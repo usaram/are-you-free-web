@@ -1,19 +1,23 @@
 extend type Mutation {
-  signInWithGoogle(input: SignInWithGoogleInput!): SignInWithGooglePayload!
+  signInWithOAuth(input: SignInWithOAuthInput!): SignInPayload!
 }
 
 """
 input
 """
-input SignInWithGoogleInput {
+input SignInWithOAuthInput {
   username: String!
   email: String!
+
+	authProviderName: String!
+	authProviderType: String!
+	authProviderAccountID: String!
 }
 
 """
 type
 """
-type SignInWithGooglePayload {
+type SignInPayload {
   username: String!
 	token: String!
 }
