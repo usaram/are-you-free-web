@@ -9,10 +9,10 @@
 	export let border: string = ''
 	export let borderColor: string = ''
 	export let type: 'button' | 'submit' | 'reset' = 'button'
-	export let onclick: (e: MouseEvent)=> void
 </script>
 
-<button
+<div
+	role='button'
 	{type}
 	class='
 		{height}
@@ -29,9 +29,8 @@
 		duration-300
 		relative
 	'
-	on:click={onclick}
 >
 	<div class='relative z-10 {iconColor}'>
 		<svelte:component this={icon} />
 	</div>
-</button>
+</div>

@@ -5,5 +5,6 @@ export const dynamic = {
 	authSecret:         env.VITE_AUTH_SECRET,
 	googleClientId:     env.VITE_GOOGLE_CLIENT_ID,
 	googleClientSecret: env.VITE_GOOGLE_CLIENT_SECRET,
-	googleRedirectUri:  env.VITE_GOOGLE_REDIRECT_URI,
+	githubClientId:     env.VITE_GITHUB_CLIENT_ID,
+	githubClientSecret: env.VITE_GITHUB_CLIENT_SECRET,
 }

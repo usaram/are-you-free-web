@@ -1,7 +1,8 @@
 import { dynamic } from '@/lib/configs/env/dynamic.server'
 import { SignInWithGoogle } from '@/lib/graphs/requests/auth/SignInWithGoogle'
-import Google from '@auth/core/providers/google'
 import { SvelteKitAuth } from '@auth/sveltekit'
+import GitHub from '@auth/sveltekit/providers/github'
+import Google from '@auth/sveltekit/providers/google'
 
 let username = ''
 
@@ -10,6 +11,10 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		Google({
 			clientId:     dynamic.googleClientId,
 			clientSecret: dynamic.googleClientSecret,
+		}),
+		GitHub({
+			clientId:     dynamic.githubClientId,
+			clientSecret: dynamic.githubClientSecret,
 		}),
 	],
 	secret:    dynamic.authSecret,
@@ -37,6 +42,29 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					exp: account.expires_at,
 				}
 			}
+
+			if (account?.provider === 'github') {
+				console.warn('99999999999999999999999')
+				console.warn('Google account:', account)
+				console.warn('Google token:', token)
+
+				const [res, err] = await SignInWithGoogle({
+					username: token.name,
+					email:    token.email,
+				})
+				if (err || !res) {
+					return false
+				}
+
+				token = {
+					user: {
+						id:       res.token,
+						username: res.username,
+					},
+					exp: account.expires_at,
+				}
+			}
+
 			return token
 		},
 		session: async ({ token, session }) => {

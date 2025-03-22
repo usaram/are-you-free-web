@@ -10,12 +10,6 @@
 	import { SignIn } from '@auth/sveltekit/components'
 </script>
 
-const providers = [
-	'x'
-	'google',
-	'github',
-]
-
 <Layout>
 	<div class='w-[50%] h-[90%] mt-10 mx-auto shadow-lg rounded-lg border border-neutral-200'>
 		<form class='w-[60%] flex flex-col m-auto'>
@@ -59,7 +53,7 @@ const providers = [
 			>
 				<div
 					slot='submitButton'
-					class='flex w-86 items-center space-x-2'
+					class='flex w-85 space-x-2'
 				>
 					<WithIconButton
 						icon={XIcon}
@@ -70,6 +64,17 @@ const providers = [
 						bg='bg-[#212121]'
 						hover='hover:bg-neutral-950'
 					/>
+				</div>
+			</SignIn>
+			<SignIn
+				provider='google'
+				signInPage='signin'
+				className='w-full'
+			>
+				<div
+					slot='submitButton'
+					class='flex w-85 space-x-2'
+				>
 					<WithIconButton
 						icon={GoogleIcon}
 						height='h-10'
@@ -80,6 +85,17 @@ const providers = [
 						border='border'
 						borderColor='border-neutral-200'
 					/>
+				</div>
+			</SignIn>
+			<SignIn
+				provider='github'
+				signInPage='signin'
+				className='w-full'
+			>
+				<div
+					slot='submitButton'
+					class='flex w-85 space-x-2'
+				>
 					<WithIconButton
 						icon={GitHubIcon}
 						iconColor='text-white'
@@ -97,10 +113,6 @@ const providers = [
 					<a href='/signup' class='text-black'>Sign Up</a>
 				</p>
 			</div>
-
-			<signIn>
-				hoge
-			</signIn>
 		</div>
 	</div>
 </Layout>
