@@ -1,11 +1,11 @@
 extend type Mutation {
-  signInWithOAuth(input: SignInWithOAuthInput!): SignInPayload!
+  signInWithSocial(input: SignInWithSocialInput!): SignInPayload!
 }
 
 """
 input
 """
-input SignInWithOAuthInput {
+input SignInWithSocialInput {
   username: String!
   email: String!
 
