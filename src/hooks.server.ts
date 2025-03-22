@@ -48,18 +48,29 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				console.warn('Google account:', account)
 				console.warn('Google token:', token)
 
-				const [res, err] = await SignInWithGoogle({
+				const [payload, err] = await SignInWithGoogle({
 					username: token.name,
 					email:    token.email,
 				})
-				if (err || !res) {
+				if (err) {
 					return false
 				}
 
+				// let [nowInJst, err] = await GetNowInJst()
+				// if (err) {
+				// 	return false
+				// }
+
+				// console.warn('res', res)
+
+				// const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+
+				// console.warn('expiresAt', expiresAt)
+
 				token = {
 					user: {
-						id:       res.token,
-						username: res.username,
+						id:       payload.token,
+						username: payload.username,
 					},
 					exp: account.expires_at,
 				}

@@ -1,3 +1,4 @@
+import { GetNowInJst } from '@/lib/graphs/schema/date/GetNowInJST'
 import { gql } from 'graphql-request'
 
 export const HealthCheckForBackend = gql`
@@ -8,4 +9,7 @@ export const HealthCheckForBackend = gql`
 
 export const query = {
 	HealthCheckForBackend,
+
+	// Date
+	GetNowInJst,
 }

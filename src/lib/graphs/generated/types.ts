@@ -1,4 +1,4 @@
-import type { GraphQLResolveInfo } from 'graphql';
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import type { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
@@ -17,15 +17,43 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
 };
 
 export type BasePayload = {
   isSuccess: Scalars['Boolean']['output'];
 };
 
+export type CreateUserInput = {
+  confirmPassword: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type CreateUserPayload = BasePayload & {
+  __typename?: 'CreateUserPayload';
+  isSuccess: Scalars['Boolean']['output'];
+};
+
+/** type */
+export type Icon = {
+  __typename?: 'Icon';
+  fileName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createUser: CreateUserPayload;
   signInWithGoogle: SignInWithGooglePayload;
+  updateIcon: Icon;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
 
@@ -33,9 +61,18 @@ export type MutationSignInWithGoogleArgs = {
   input: SignInWithGoogleInput;
 };
 
+
+export type MutationUpdateIconArgs = {
+  input: UpdateIconInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getIcon: Icon;
+  getIcons: Array<Icon>;
+  getNowInJST: Scalars['Date']['output'];
   healthCheckForBackend: Scalars['String']['output'];
+  users: Array<Maybe<User>>;
 };
 
 /** input */
@@ -51,12 +88,33 @@ export type SignInWithGooglePayload = {
   username: Scalars['String']['output'];
 };
 
+/** input */
+export type UpdateIconInput = {
+  iconID: Scalars['ID']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  icon: Icon;
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Boolean']['output'];
+  isAdmin: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  password: Scalars['String']['output'];
+};
+
 export type SignInWithGoogleMutationVariables = Exact<{
   input: SignInWithGoogleInput;
 }>;
 
 
 export type SignInWithGoogleMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInWithGooglePayload', username: string, token: string } };
+
+export type GetNowInJstQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNowInJstQuery = { __typename?: 'Query', nowInJST: any };
 
 export type HealthCheckForBackendQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -133,42 +191,78 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  BasePayload: never;
+  BasePayload: ( CreateUserPayload );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   BasePayload: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BasePayload']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateUserInput: CreateUserInput;
+  CreateUserPayload: ResolverTypeWrapper<CreateUserPayload>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Icon: ResolverTypeWrapper<Icon>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SignInWithGoogleInput: SignInWithGoogleInput;
   SignInWithGooglePayload: ResolverTypeWrapper<SignInWithGooglePayload>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UpdateIconInput: UpdateIconInput;
+  User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   BasePayload: ResolversInterfaceTypes<ResolversParentTypes>['BasePayload'];
   Boolean: Scalars['Boolean']['output'];
+  CreateUserInput: CreateUserInput;
+  CreateUserPayload: CreateUserPayload;
+  Date: Scalars['Date']['output'];
+  ID: Scalars['ID']['output'];
+  Icon: Icon;
   Mutation: {};
   Query: {};
   SignInWithGoogleInput: SignInWithGoogleInput;
   SignInWithGooglePayload: SignInWithGooglePayload;
   String: Scalars['String']['output'];
+  UpdateIconInput: UpdateIconInput;
+  User: User;
 };
 
 export type BasePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BasePayload'] = ResolversParentTypes['BasePayload']> = {
-  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'CreateUserPayload', ParentType, ContextType>;
   isSuccess: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
+export type CreateUserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = {
+  isSuccess: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export type IconResolvers<ContextType = any, ParentType extends ResolversParentTypes['Icon'] = ResolversParentTypes['Icon']> = {
+  fileName: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createUser: Resolver<ResolversTypes['CreateUserPayload'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   signInWithGoogle: Resolver<ResolversTypes['SignInWithGooglePayload'], ParentType, ContextType, RequireFields<MutationSignInWithGoogleArgs, 'input'>>;
+  updateIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType, RequireFields<MutationUpdateIconArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
+  getIcons: Resolver<Array<ResolversTypes['Icon']>, ParentType, ContextType>;
+  getNowInJST: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   healthCheckForBackend: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  users: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 };
 
 export type SignInWithGooglePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInWithGooglePayload'] = ResolversParentTypes['SignInWithGooglePayload']> = {
@@ -177,11 +271,26 @@ export type SignInWithGooglePayloadResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  email: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  icon: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
+  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isAdmin: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   BasePayload: BasePayloadResolvers<ContextType>;
+  CreateUserPayload: CreateUserPayloadResolvers<ContextType>;
+  Date: GraphQLScalarType;
+  Icon: IconResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
   SignInWithGooglePayload: SignInWithGooglePayloadResolvers<ContextType>;
+  User: UserResolvers<ContextType>;
 };
 
 
@@ -192,6 +301,11 @@ export const SignInWithGoogleDocument = gql`
     username
     token
   }
+}
+    `;
+export const GetNowInJstDocument = gql`
+    query GetNowInJst {
+  nowInJST: getNowInJST
 }
     `;
 export const HealthCheckForBackendDocument = gql`
@@ -209,6 +323,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     SignInWithGoogle(variables: SignInWithGoogleMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithGoogleMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SignInWithGoogleMutation>(SignInWithGoogleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithGoogle', 'mutation', variables);
+    },
+    GetNowInJst(variables?: GetNowInJstQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNowInJstQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetNowInJstQuery>(GetNowInJstDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNowInJst', 'query', variables);
     },
     HealthCheckForBackend(variables?: HealthCheckForBackendQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HealthCheckForBackendQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<HealthCheckForBackendQuery>(HealthCheckForBackendDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HealthCheckForBackend', 'query', variables);

@@ -6,7 +6,6 @@ import { client } from '@/lib/graphs'
 import { query } from '@/lib/graphs/schema/query'
 
 export async function HealthCheckForBackend(): Promise<[string, err]> {
-	console.log('1111111100000000000000')
 	const { data, err } = await client.request<HealthCheckForBackendQuery>({
 		query:     query.HealthCheckForBackend,
 		variables: {},
