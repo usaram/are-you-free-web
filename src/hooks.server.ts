@@ -12,16 +12,6 @@ let username = ''
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	providers,
-	// providers: [
-	// 	Google({
-	// 		clientId:     dynamic.googleClientId,
-	// 		clientSecret: dynamic.googleClientSecret,
-	// 	}),
-	// 	GitHub({
-	// 		clientId:     dynamic.githubClientId,
-	// 		clientSecret: dynamic.githubClientSecret,
-	// 	}),
-	// ],
 	secret:    dynamic.authSecret,
 	trustHost: true,
 	callbacks: {
