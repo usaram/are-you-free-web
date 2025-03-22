@@ -27,7 +27,3 @@ input CreateUserInput {
 type CreateUserPayload implements BasePayload {
   isSuccess: Boolean!
 }
-
-"""
-	The icon type is used to represent the icon of a user
-"""
