@@ -1,5 +1,9 @@
+import { providerMap, providers } from '@/auth'
+import { cfg } from '@/lib/configs'
 import { dynamic } from '@/lib/configs/env/dynamic.server'
-import { SignInWithGoogle } from '@/lib/graphs/requests/auth/SignInWithGoogle'
+import { SignInWithSocial } from '@/lib/graphs/requests/auth/SignInWithSocial'
+import { GetNowInJst } from '@/lib/graphs/requests/date/GetNowInJst'
+import { CalculateExpiresAt } from '@/lib/utils/SetExpirationForToken'
 import { SvelteKitAuth } from '@auth/sveltekit'
 import GitHub from '@auth/sveltekit/providers/github'
 import Google from '@auth/sveltekit/providers/google'
@@ -7,76 +11,75 @@ import Google from '@auth/sveltekit/providers/google'
 let username = ''
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
-	providers: [
-		Google({
-			clientId:     dynamic.googleClientId,
-			clientSecret: dynamic.googleClientSecret,
-		}),
-		GitHub({
-			clientId:     dynamic.githubClientId,
-			clientSecret: dynamic.githubClientSecret,
-		}),
-	],
+	providers,
+	// providers: [
+	// 	Google({
+	// 		clientId:     dynamic.googleClientId,
+	// 		clientSecret: dynamic.googleClientSecret,
+	// 	}),
+	// 	GitHub({
+	// 		clientId:     dynamic.githubClientId,
+	// 		clientSecret: dynamic.githubClientSecret,
+	// 	}),
+	// ],
 	secret:    dynamic.authSecret,
 	trustHost: true,
 	callbacks: {
 		jwt: async ({ token, account }) => {
-			if (account?.provider === 'google') {
-				console.warn('99999999999999999999999')
-				console.warn('Google account:', account)
-				console.warn('Google token:', token)
+			console.warn('1111111111111111111')
+			console.warn(account)
+			for (const provider of providerMap) {
+				console.warn('2222222222222222222')
+				console.warn('account', account)
+				console.warn('token', token)
+				if (account?.provider === provider.id) {
+					console.warn('333333333333333')
+					const [res, err] = await SignInWithSocial({
+						username:              token.name,
+						email:                 token.email,
+						authProviderName:      account.provider,
+						authProviderType:      account.type,
+						authProviderAccountID: account.providerAccountId,
+					})
+					if (err) {
+						return false
+					}
 
-				const [res, err] = await SignInWithGoogle({
-					username: token.name,
-					email:    token.email,
-				})
-				if (err || !res) {
-					return false
-				}
+					console.warn('555555555555555555555')
+					console.warn(account.expres_at)
+					if (!account?.expires_at) {
+						const [nowInJst, err] = await GetNowInJst()
+						if (err) {
+							return false
+						}
 
-				token = {
-					user: {
-						id:       res.token,
-						username: res.username,
-					},
-					exp: account.expires_at,
-				}
-			}
+						const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+						account.expires_at = expiresAt
 
-			if (account?.provider === 'github') {
-				console.warn('99999999999999999999999')
-				console.warn('Google account:', account)
-				console.warn('Google token:', token)
+						console.warn('expiresAt', expiresAt)
+					}
 
-				const [payload, err] = await SignInWithGoogle({
-					username: token.name,
-					email:    token.email,
-				})
-				if (err) {
-					return false
-				}
-
-				// let [nowInJst, err] = await GetNowInJst()
-				// if (err) {
-				// 	return false
-				// }
-
-				// console.warn('res', res)
-
-				// const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
-
-				// console.warn('expiresAt', expiresAt)
-
-				token = {
-					user: {
-						id:       payload.token,
-						username: payload.username,
-					},
-					exp: account.expires_at,
+					token = {
+						user: {
+							id:       res.token,
+							username: res.username,
+						},
+						exp: account.expires_at,
+					}
 				}
 			}
-
 			return token
+
+			// let [nowInJst, err] = await GetNowInJst()
+			// if (err) {
+			// 	return false
+			// }
+
+			// console.warn('res', res)
+
+			// const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+
+			// console.warn('expiresAt', expiresAt)
 		},
 		session: async ({ token, session }) => {
 			if (!token && !token.user) {

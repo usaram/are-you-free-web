@@ -47,7 +47,7 @@ export type Icon = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: CreateUserPayload;
-  signInWithGoogle: SignInWithGooglePayload;
+  signInWithSocial: SignInPayload;
   updateIcon: Icon;
 };
 
@@ -57,8 +57,8 @@ export type MutationCreateUserArgs = {
 };
 
 
-export type MutationSignInWithGoogleArgs = {
-  input: SignInWithGoogleInput;
+export type MutationSignInWithSocialArgs = {
+  input: SignInWithSocialInput;
 };
 
 
@@ -75,17 +75,20 @@ export type Query = {
   users: Array<Maybe<User>>;
 };
 
-/** input */
-export type SignInWithGoogleInput = {
-  email: Scalars['String']['input'];
-  username: Scalars['String']['input'];
-};
-
 /** type */
-export type SignInWithGooglePayload = {
-  __typename?: 'SignInWithGooglePayload';
+export type SignInPayload = {
+  __typename?: 'SignInPayload';
   token: Scalars['String']['output'];
   username: Scalars['String']['output'];
+};
+
+/** input */
+export type SignInWithSocialInput = {
+  authProviderAccountID: Scalars['String']['input'];
+  authProviderName: Scalars['String']['input'];
+  authProviderType: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 /** input */
@@ -104,12 +107,12 @@ export type User = {
   password: Scalars['String']['output'];
 };
 
-export type SignInWithGoogleMutationVariables = Exact<{
-  input: SignInWithGoogleInput;
+export type SignInWithSocialMutationVariables = Exact<{
+  input: SignInWithSocialInput;
 }>;
 
 
-export type SignInWithGoogleMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInWithGooglePayload', username: string, token: string } };
+export type SignInWithSocialMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInPayload', username: string, token: string } };
 
 export type GetNowInJstQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -205,8 +208,8 @@ export type ResolversTypes = {
   Icon: ResolverTypeWrapper<Icon>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  SignInWithGoogleInput: SignInWithGoogleInput;
-  SignInWithGooglePayload: ResolverTypeWrapper<SignInWithGooglePayload>;
+  SignInPayload: ResolverTypeWrapper<SignInPayload>;
+  SignInWithSocialInput: SignInWithSocialInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateIconInput: UpdateIconInput;
   User: ResolverTypeWrapper<User>;
@@ -223,8 +226,8 @@ export type ResolversParentTypes = {
   Icon: Icon;
   Mutation: {};
   Query: {};
-  SignInWithGoogleInput: SignInWithGoogleInput;
-  SignInWithGooglePayload: SignInWithGooglePayload;
+  SignInPayload: SignInPayload;
+  SignInWithSocialInput: SignInWithSocialInput;
   String: Scalars['String']['output'];
   UpdateIconInput: UpdateIconInput;
   User: User;
@@ -253,7 +256,7 @@ export type IconResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser: Resolver<ResolversTypes['CreateUserPayload'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
-  signInWithGoogle: Resolver<ResolversTypes['SignInWithGooglePayload'], ParentType, ContextType, RequireFields<MutationSignInWithGoogleArgs, 'input'>>;
+  signInWithSocial: Resolver<ResolversTypes['SignInPayload'], ParentType, ContextType, RequireFields<MutationSignInWithSocialArgs, 'input'>>;
   updateIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType, RequireFields<MutationUpdateIconArgs, 'input'>>;
 };
 
@@ -265,7 +268,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   users: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 };
 
-export type SignInWithGooglePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInWithGooglePayload'] = ResolversParentTypes['SignInWithGooglePayload']> = {
+export type SignInPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
   token: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   username: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -289,15 +292,15 @@ export type Resolvers<ContextType = any> = {
   Icon: IconResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
-  SignInWithGooglePayload: SignInWithGooglePayloadResolvers<ContextType>;
+  SignInPayload: SignInPayloadResolvers<ContextType>;
   User: UserResolvers<ContextType>;
 };
 
 
 
-export const SignInWithGoogleDocument = gql`
-    mutation SignInWithGoogle($input: SignInWithGoogleInput!) {
-  payload: signInWithGoogle(input: $input) {
+export const SignInWithSocialDocument = gql`
+    mutation SignInWithSocial($input: SignInWithSocialInput!) {
+  payload: signInWithSocial(input: $input) {
     username
     token
   }
@@ -321,8 +324,8 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    SignInWithGoogle(variables: SignInWithGoogleMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithGoogleMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SignInWithGoogleMutation>(SignInWithGoogleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithGoogle', 'mutation', variables);
+    SignInWithSocial(variables: SignInWithSocialMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithSocialMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SignInWithSocialMutation>(SignInWithSocialDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithSocial', 'mutation', variables);
     },
     GetNowInJst(variables?: GetNowInJstQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNowInJstQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetNowInJstQuery>(GetNowInJstDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNowInJst', 'query', variables);

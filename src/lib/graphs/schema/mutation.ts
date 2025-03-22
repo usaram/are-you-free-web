@@ -1,5 +1,5 @@
-import { SignInWithGoogle } from '@/lib/graphs/schema/auth/SignInWithGoogle'
+import { SignInWithSocial } from '@/lib/graphs/schema/auth/SignInWithSocial'
 
 export const mutation = {
-	SignInWithGoogle,
+	SignInWithSocial,
 }
