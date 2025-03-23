@@ -1,10 +1,27 @@
 extend type Mutation {
+	# SignUp
+	signUpWithCredential(input: SignUpWithCredentialInput!): SignUpPayload!
+
+	# SignIn
+	signInWithCredential(input: SignInWithCredentialInput!): SignInPayload!
   signInWithSocial(input: SignInWithSocialInput!): SignInPayload!
 }
 
 """
 input
 """
+input SignUpWithCredentialInput {
+	username: String!
+	email: String!
+	password: String!
+	confirmPassword: String!
+}
+
+input SignInWithCredentialInput {
+	email: String!
+	password: String!
+}
+
 input SignInWithSocialInput {
   username: String!
   email: String!
@@ -17,6 +34,10 @@ input SignInWithSocialInput {
 """
 type
 """
+type SignUpPayload implements BasePayload {
+  isSuccess: Boolean!
+}
+
 type SignInPayload {
   username: String!
 	token: String!
