@@ -1,6 +1,7 @@
-import { providerMap, providers } from '@/auth'
+import { providers } from '@/auth'
 import { cfg } from '@/lib/configs'
-import { dynamic } from '@/lib/configs/env/dynamic.server'
+import { env } from '@/lib/configs/env/private.server'
+import { SignInWithCredential } from '@/lib/graphs/requests/auth/SignInWithCredential'
 import { SignInWithSocial } from '@/lib/graphs/requests/auth/SignInWithSocial'
 import { GetNowInJst } from '@/lib/graphs/requests/date/GetNowInJst'
 import { CalculateExpiresAt } from '@/lib/utils/expiration/CalculateExpiresAt'
@@ -10,31 +11,21 @@ let username = ''
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	providers,
-	secret:    dynamic.authSecret,
+	secret:    env.authSecret,
 	trustHost: true,
 	callbacks: {
 		jwt: async ({ token, account }) => {
-			for (const provider of providerMap) {
-				if (account?.provider === provider.id) {
-					const [payload, err] = await SignInWithSocial({
-						username:              token.name,
-						email:                 token.email,
-						authProviderName:      account.provider,
-						authProviderType:      account.type,
-						authProviderAccountID: account.providerAccountId,
+	console.warn(env)
+			if (account?.provider === 'credentials') {
+				{
+					const [payload, err] = await SignInWithCredential({
+						username:         token.name,
+						email:            token.email,
+						password:         token.password,
+						authProviderName: account.provider,
 					})
 					if (err) {
 						return false
-					}
-
-					if (!account?.expires_at) {
-						const [nowInJst, err] = await GetNowInJst()
-						if (err) {
-							return false
-						}
-
-						const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
-						account.expires_at = expiresAt
 					}
 
 					token = {
@@ -42,8 +33,50 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 							id:   payload.token,
 							name: payload.username,
 						},
-						exp: account.expires_at,
 					}
+				}
+
+				{
+					const [nowInJst, err] = await GetNowInJst()
+					if (err) {
+						return false
+					}
+					const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+
+					token = {
+						exp: expiresAt,
+					}
+				}
+			}
+
+			if (account?.provider === 'google' || account?.provider === 'github') {
+				let [payload, err] = await SignInWithSocial({
+					username:              token.name,
+					email:                 token.email,
+					authProviderName:      account.provider,
+					authProviderType:      account.type,
+					authProviderAccountID: account.providerAccountId,
+				})
+				if (err) {
+					return false
+				}
+
+				if (!account?.expires_at) {
+					let [nowInJst, err] = await GetNowInJst()
+					if (err) {
+						return false
+					}
+
+					const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+					account.expires_at = expiresAt
+				}
+
+				token = {
+					user: {
+						id:   payload.token,
+						name: payload.username,
+					},
+					exp: account.expires_at,
 				}
 			}
 			console.warn('22222222222222222222')

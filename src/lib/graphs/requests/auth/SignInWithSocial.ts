@@ -1,9 +1,10 @@
 'use server'
 
 import type {
+	MutationSignInWithSocialArgs,
+	SignInPayload,
 	SignInWithSocialInput,
 	SignInWithSocialMutation,
-	SignInWithSocialPayload,
 } from '@/lib/graphs/generated/types'
 import type { err } from '@/lib/types/err'
 import { client } from '@/lib/graphs'
@@ -15,8 +16,8 @@ export async function SignInWithSocial({
 	authProviderName,
 	authProviderType,
 	authProviderAccountID,
-}: SignInWithSocialInput): Promise<[SignInWithSocialPayload | null, err]> {
-	const args: { input: SignInWithSocialInput } = {
+}: SignInWithSocialInput): Promise<[SignInPayload, err]> {
+	const args: MutationSignInWithSocialArgs = {
 		input: {
 			username,
 			email,
@@ -31,7 +32,7 @@ export async function SignInWithSocial({
 		variables: args,
 	})
 	if (err) {
-		console.error('Request Layer, Error signing in with Social:', err)
+		console.error('Request Layer, Error sign in with Social:', err)
 		return [null, err]
 	}
 

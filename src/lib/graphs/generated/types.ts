@@ -47,7 +47,9 @@ export type Icon = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: CreateUserPayload;
+  signInWithCredential: SignInPayload;
   signInWithSocial: SignInPayload;
+  signUpWithCredential: SignUpPayload;
   updateIcon: Icon;
 };
 
@@ -57,8 +59,18 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationSignInWithCredentialArgs = {
+  input: SignInWithCredentialInput;
+};
+
+
 export type MutationSignInWithSocialArgs = {
   input: SignInWithSocialInput;
+};
+
+
+export type MutationSignUpWithCredentialArgs = {
+  input: SignUpWithCredentialInput;
 };
 
 
@@ -75,19 +87,36 @@ export type Query = {
   users: Array<Maybe<User>>;
 };
 
-/** type */
 export type SignInPayload = {
   __typename?: 'SignInPayload';
   token: Scalars['String']['output'];
   username: Scalars['String']['output'];
 };
 
-/** input */
+export type SignInWithCredentialInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type SignInWithSocialInput = {
   authProviderAccountID: Scalars['String']['input'];
   authProviderName: Scalars['String']['input'];
   authProviderType: Scalars['String']['input'];
   email: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+/** type */
+export type SignUpPayload = BasePayload & {
+  __typename?: 'SignUpPayload';
+  isSuccess: Scalars['Boolean']['output'];
+};
+
+/** input */
+export type SignUpWithCredentialInput = {
+  confirmPassword: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
@@ -107,12 +136,26 @@ export type User = {
   password: Scalars['String']['output'];
 };
 
+export type SignInWithCredentialMutationVariables = Exact<{
+  input: SignInWithCredentialInput;
+}>;
+
+
+export type SignInWithCredentialMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInPayload', username: string, token: string } };
+
 export type SignInWithSocialMutationVariables = Exact<{
   input: SignInWithSocialInput;
 }>;
 
 
 export type SignInWithSocialMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignInPayload', username: string, token: string } };
+
+export type SignUpWithCredentialMutationVariables = Exact<{
+  input: SignUpWithCredentialInput;
+}>;
+
+
+export type SignUpWithCredentialMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignUpPayload', isSuccess: boolean } };
 
 export type GetNowInJstQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -194,7 +237,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  BasePayload: ( CreateUserPayload );
+  BasePayload: ( CreateUserPayload ) | ( SignUpPayload );
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -209,7 +252,10 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SignInPayload: ResolverTypeWrapper<SignInPayload>;
+  SignInWithCredentialInput: SignInWithCredentialInput;
   SignInWithSocialInput: SignInWithSocialInput;
+  SignUpPayload: ResolverTypeWrapper<SignUpPayload>;
+  SignUpWithCredentialInput: SignUpWithCredentialInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateIconInput: UpdateIconInput;
   User: ResolverTypeWrapper<User>;
@@ -227,14 +273,17 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   SignInPayload: SignInPayload;
+  SignInWithCredentialInput: SignInWithCredentialInput;
   SignInWithSocialInput: SignInWithSocialInput;
+  SignUpPayload: SignUpPayload;
+  SignUpWithCredentialInput: SignUpWithCredentialInput;
   String: Scalars['String']['output'];
   UpdateIconInput: UpdateIconInput;
   User: User;
 };
 
 export type BasePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BasePayload'] = ResolversParentTypes['BasePayload']> = {
-  __resolveType: TypeResolveFn<'CreateUserPayload', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'CreateUserPayload' | 'SignUpPayload', ParentType, ContextType>;
   isSuccess: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
@@ -256,7 +305,9 @@ export type IconResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser: Resolver<ResolversTypes['CreateUserPayload'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  signInWithCredential: Resolver<ResolversTypes['SignInPayload'], ParentType, ContextType, RequireFields<MutationSignInWithCredentialArgs, 'input'>>;
   signInWithSocial: Resolver<ResolversTypes['SignInPayload'], ParentType, ContextType, RequireFields<MutationSignInWithSocialArgs, 'input'>>;
+  signUpWithCredential: Resolver<ResolversTypes['SignUpPayload'], ParentType, ContextType, RequireFields<MutationSignUpWithCredentialArgs, 'input'>>;
   updateIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType, RequireFields<MutationUpdateIconArgs, 'input'>>;
 };
 
@@ -271,6 +322,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SignInPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
   token: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   username: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SignUpPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignUpPayload'] = ResolversParentTypes['SignUpPayload']> = {
+  isSuccess: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -293,16 +349,32 @@ export type Resolvers<ContextType = any> = {
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
   SignInPayload: SignInPayloadResolvers<ContextType>;
+  SignUpPayload: SignUpPayloadResolvers<ContextType>;
   User: UserResolvers<ContextType>;
 };
 
 
 
+export const SignInWithCredentialDocument = gql`
+    mutation SignInWithCredential($input: SignInWithCredentialInput!) {
+  payload: signInWithCredential(input: $input) {
+    username
+    token
+  }
+}
+    `;
 export const SignInWithSocialDocument = gql`
     mutation SignInWithSocial($input: SignInWithSocialInput!) {
   payload: signInWithSocial(input: $input) {
     username
     token
+  }
+}
+    `;
+export const SignUpWithCredentialDocument = gql`
+    mutation SignUpWithCredential($input: SignUpWithCredentialInput!) {
+  payload: signUpWithCredential(input: $input) {
+    isSuccess
   }
 }
     `;
@@ -324,8 +396,14 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    SignInWithCredential(variables: SignInWithCredentialMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithCredentialMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SignInWithCredentialMutation>(SignInWithCredentialDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithCredential', 'mutation', variables);
+    },
     SignInWithSocial(variables: SignInWithSocialMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignInWithSocialMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SignInWithSocialMutation>(SignInWithSocialDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignInWithSocial', 'mutation', variables);
+    },
+    SignUpWithCredential(variables: SignUpWithCredentialMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignUpWithCredentialMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SignUpWithCredentialMutation>(SignUpWithCredentialDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignUpWithCredential', 'mutation', variables);
     },
     GetNowInJst(variables?: GetNowInJstQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNowInJstQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetNowInJstQuery>(GetNowInJstDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNowInJst', 'query', variables);

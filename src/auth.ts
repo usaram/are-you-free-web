@@ -1,15 +1,39 @@
-import { dynamic } from '@/lib/configs/env/dynamic.server'
+import { env } from '@/lib/configs/env/private.server'
+import Credentials from '@auth/core/providers/credentials'
 import GitHub from '@auth/sveltekit/providers/github'
 import Google from '@auth/sveltekit/providers/google'
 
 export const providers = [
+	// Credential SignIn
+	Credentials({
+		credentials: {
+			username:        { label: 'Username', type: 'text' },
+			email:		         { label: 'Email', type: 'email' },
+			password:        { label: 'Password', type: 'password' },
+			confirmPassword: { label: 'Confirm Password', type: 'password' },
+		},
+		authorize: async (credentials) => {
+			const account = {
+				provider: 'credentials',
+			}
+			const token = {
+				name:            credentials.username,
+				email:           credentials.email,
+				password:        credentials.password,
+				confirmPassword: credentials.confirmPassword,
+			}
+			return { account, token }
+		},
+	}),
+
+	// Social SignIn
 	Google({
-		clientId:     dynamic.googleClientId,
-		clientSecret: dynamic.googleClientSecret,
+		clientId:     env.googleClientId,
+		clientSecret: env.googleClientSecret,
 	}),
 	GitHub({
-		clientId:     dynamic.githubClientId,
-		clientSecret: dynamic.githubClientSecret,
+		clientId:     env.githubClientId,
+		clientSecret: env.githubClientSecret,
 	}),
 ]
 

@@ -1,70 +1,81 @@
-import type { err } from '@/lib/types/err'
-import type { ClientError } from 'graphql-request'
 import { GraphQLClient } from 'graphql-request'
+import type { ClientError } from 'graphql-request'
+import type { err } from '@/lib/types/err'
+import { env } from '@/lib/configs/env/public'
 
 interface RequestProps {
-	query:      string
-	variables?: unknown
-	token?:     string
+    query: string
+    variables?: unknown
+    token?: string
 }
 
 class GraphQLClientClass {
-	private client: GraphQLClient
+    private client: GraphQLClient
 
-	constructor(apiEndpoint: string) {
-		this.client = new GraphQLClient(apiEndpoint)
+    constructor(apiEndpoint: string) {
+        this.client = new GraphQLClient(apiEndpoint)
+    }
+
+    setHeader(key: string, value: string) {
+        this.client.setHeader(key, value)
+    }
+
+    async request<T>({
+        query,
+        variables,
+        token,
+    }: RequestProps): Promise<{ res: unknown, err: err }> {
+        if (token) {
+            this.setHeader('Authorization', `Bearer ${token}`)
+        }
+
+        return this.client
+            .request<T>(query, variables)
+            .then((res) => {
+                return { res, err: null }
+            })
+            .catch((error) => {
+                return { res: null, err: this.parseGraphQLError(error) }
+            })
+    }
+
+    private parseGraphQLError(err: ClientError): Error {
+        console.error('GraphQL error details:', err)
+        if (err.response && err.response.errors && err.response.errors.length > 0) {
+            const graphqlError = err.response.errors[0]
+            if (graphqlError.extensions && graphqlError.extensions.code) {
+                const code = String(graphqlError.extensions.code)
+                console.error('111111111111111111')
+                return new Error(`GraphQL error: ${code} - ${graphqlError.message}`)
+            }
+            console.error('222222222222222222')
+            return new Error(`GraphQL error: ${graphqlError.message}`)
+        }
+        console.error('333333333333333333')
+        return new Error('Unknown GraphQL error occurred')
+    }
+}
+export { GraphQLClientClass }
+
+function NewGraphQLClient(isServer: boolean): GraphQLClientClass {
+	console.warn('11111111111111111111')
+	console.warn('env:', env)
+	if (env.environment === 'local') {
+		console.warn('22222222222222222222')
+			const apiEndpointClient = env.apiEndpointClient
+			const apiEndpointServer = env.apiEndpointServer // this is the docker-compose service name
+			const apiEndpoint = isServer ? apiEndpointServer : apiEndpointClient
+			console.warn('apiEndpoint:', apiEndpoint)
+			console.warn('apiEndpointClient:', apiEndpointClient)
+			console.warn('apiEndpointServer:', apiEndpointServer)
+			console.warn(`${apiEndpoint}:${env.apiPort}/api/query`)
+
+			return new GraphQLClientClass(`${apiEndpoint}:${env.apiPort}/api/query`)
 	}
 
-	setHeader(key: string, value: string) {
-		this.client.setHeader(key, value)
-	}
-
-	async request<T>({
-		query,
-		variables,
-		token,
-	}: RequestProps): Promise<{ res: unknown, err: err }> {
-		if (token) {
-			this.setHeader('Authorization', `Bearer ${token}`)
-		}
-
-		return this.client
-			.request<T>(query, variables)
-			.then((res) => {
-				return { res, err: null }
-			})
-			.catch((error) => {
-				return { res: null, err: this.parseGraphQLError(error) }
-			})
-	}
-
-	private parseGraphQLError(err: ClientError): Error {
-		console.error('GraphQL error details:', err)
-		if (err.response && err.response.errors && err.response.errors.length > 0) {
-			const graphqlError = err.response.errors[0]
-			if (graphqlError.extensions && graphqlError.extensions.code) {
-				const code = String(graphqlError.extensions.code)
-				console.error('111111111111111111')
-				return new Error(`GraphQL error: ${code} - ${graphqlError.message}`)
-			}
-			console.error('222222222222222222')
-			return new Error(`GraphQL error: ${graphqlError.message}`)
-		}
-		console.error('333333333333333333')
-		return new Error('Unknown GraphQL error occurred')
-	}
+	return new GraphQLClientClass(`${env.apiEndpoint}:${env.apiPort}/api/query`)
 }
 
-export { GraphQLClientClass }
-export const client = new GraphQLClientClass('http://are-you-free-local-api:1323/api/query')
-// export const client = new GraphQLClientClass('http://localhost:1323/api/query')
-// const clientApiEndpoint = `${constants.envs.public.clientApiEndpoint}:${constants.envs.public.apiPort}${constants.envs.public.graphqlHandlerPath}`
-// const serverApiEndpoint = `${constants.envs.public.serverApiEndpoint}:${constants.envs.public.apiPort}${constants.envs.public.graphqlHandlerPath}`
-
-// function Client(isSever: boolean): GraphQLClientClass {
-// 	const apiEndpoint = isSever ? serverApiEndpoint : clientApiEndpoint
-// 	return new GraphQLClientClass(apiEndpoint)
-// }
-
-// const isServer = typeof window === 'undefined'
-// export const client = Client(isServer)
+export const isServer = typeof window === 'undefined'
+console.warn('isServer:', isServer)
+export const client = NewGraphQLClient(isServer)
