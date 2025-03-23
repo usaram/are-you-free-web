@@ -1,19 +1,17 @@
-import type { SignUpFormStoreProps } from '@/lib/types/components/forms/SignUpFormStoreProps'
+import type { SignInFormStoreProps } from '@/lib/types/components/forms/SignInFormStoreProps'
 import { goto } from '$app/navigation'
-import { SignUpWithCredential as srvSignUpWithCredential } from '@/lib/graphs/usecases/services/auth/SignUpWithCredential'
+import { SignInWithCredential as srvSignInWithCredential } from '@/lib/graphs/usecases/services/auth/SignInWithCredential'
 import { get } from 'svelte/store'
 
-export async function SignUpWithCredential(SignUpFormStore: SignUpFormStoreProps) {
-	const [res, err] = await srvSignUpWithCredential({
-		username:        get(SignUpFormStore.username),
-		email:           get(SignUpFormStore.email),
-		password:        get(SignUpFormStore.password),
-		confirmPassword: get(SignUpFormStore.confirmPassword),
+export async function SignInWithCredential(SignInFormStore: SignInFormStoreProps) {
+	const [res, err] = await srvSignInWithCredential({
+		email:    get(SignInFormStore.email),
+		password: get(SignInFormStore.password),
 	})
-	if (err || !res) {
-		console.error('Handle Layer, Error sign up with Credential:', err)
+	if (err) {
+		console.error('Handle Layer, Error sign in with Credential:', err)
 		return [null, err]
 	}
 
-	goto('/signin')
+	goto(`/${res.username}`)
 }

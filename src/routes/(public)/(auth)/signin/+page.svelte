@@ -5,6 +5,8 @@
 	import GitHubIcon from '@/lib/components/ui/statics/GitHubIcon.svelte'
 	import GoogleIcon from '@/lib/components/ui/statics/GoogleIcon.svelte'
 	import Logo from '@/lib/components/ui/statics/Logo.svelte'
+	import { SignInWithCredential } from '@/lib/graphs/usecases/handlers/auth/SignInWithCredential'
+	import { SignInFormStore } from '@/lib/stores/components/forms/SignInFormStore'
 	import Layout from '@/routes/(public)/__layout.svelte'
 	import { SignIn } from '@auth/sveltekit/components'
 </script>
@@ -26,12 +28,14 @@
 				label='Email'
 				type='email'
 				placeholder='Email Address'
+				value={SignInFormStore.email}
 			/>
 			<Input
 				id='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
+				value={SignInFormStore.password}
 			/>
 			<div class='mt-4'>
 				<SecondaryButton
@@ -39,6 +43,7 @@
 					height='h-10'
 					width='w-full'
 					type='submit'
+					onclick={() => SignInWithCredential(SignInFormStore)}
 				/>
 			</div>
 		</form>

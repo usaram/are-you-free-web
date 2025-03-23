@@ -1,7 +1,6 @@
 import type { SignUpFormStoreProps } from '@/lib/types/components/forms/SignUpFormStoreProps'
 import { goto } from '$app/navigation'
 import { SignUpWithCredential as srvSignUpWithCredential } from '@/lib/graphs/usecases/services/auth/SignUpWithCredential'
-import { SignUpFormStore } from '@/lib/stores/components/forms/SignUpFormStore'
 import { get } from 'svelte/store'
 
 export async function SignUpWithCredential(SignUpFormStore: SignUpFormStoreProps) {
