@@ -1,13 +1,8 @@
 'use server'
 
 import { SignUpWithCredential as reqSignUpWithCredential } from '@/lib/graphs/requests/auth/SignUpWithCredential'
-// import { get } from 'svelte/store'
 
 interface SignUpWithCredentialProps {
-	// username:        Writable<string>
-	// email:           Writable<string>
-	// password:        Writable<string>
-	// confirmPassword: Writable<string>
 	username:        string
 	email:           string
 	password:        string
@@ -21,10 +16,6 @@ export async function SignUpWithCredential({
 	confirmPassword,
 }: SignUpWithCredentialProps) {
 	const [res, err] = await reqSignUpWithCredential({
-		// username:        get(username),
-		// email:           get(email),
-		// password:        get(password),
-		// confirmPassword: get(confirmPassword),
 		username,
 		email,
 		password,

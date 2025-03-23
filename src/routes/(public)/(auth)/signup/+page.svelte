@@ -1,28 +1,10 @@
 <script lang='ts'>
-	import { goto } from '$app/navigation'
 	import SecondaryButton from '@/lib/components/ui/buttons/SecondaryButton.svelte'
 	import Input from '@/lib/components/ui/forms/Input.svelte'
 	import Logo from '@/lib/components/ui/statics/Logo.svelte'
-	import { SignUpWithCredential } from '@/lib/graphs/usecases/services/auth/SignUpWithCredential'
+	import { SignUpWithCredential } from '@/lib/graphs/usecases/handlers/auth/SignUpWithCredential'
 	import { SignUpFormStore } from '@/lib/stores/components/forms/SignUpFormStore'
 	import Layout from '@/routes/(public)/__layout.svelte'
-	import { get } from 'svelte/store'
-
-	const handleSignUpWithCredential = async () => {
-		const [res, err] = await SignUpWithCredential({
-			username:        get(SignUpFormStore.username),
-			email:           get(SignUpFormStore.email),
-			password:        get(SignUpFormStore.password),
-			confirmPassword: get(SignUpFormStore.confirmPassword),
-		})
-		if (err) {
-			console.error('Error signing up:', err)
-		}
-
-		if (res) {
-			goto('/signin')
-		}
-	}
 
 	const isSignUp: boolean = true
 </script>
@@ -73,7 +55,7 @@
 					height='h-10'
 					width='w-full'
 					type='submit'
-					onclick={handleSignUpWithCredential}
+					onclick={() => SignUpWithCredential(SignUpFormStore)}
 				/>
 			</div>
 		</div>
