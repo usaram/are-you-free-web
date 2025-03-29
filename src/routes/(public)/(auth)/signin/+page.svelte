@@ -1,12 +1,7 @@
 <script lang='ts'>
-	import SecondaryButton from '@/lib/components/ui/buttons/SecondaryButton.svelte'
-	import WithIconButton from '@/lib/components/ui/buttons/WithIconButton.svelte'
-	import Input from '@/lib/components/ui/forms/Input.svelte'
-	import GitHubIcon from '@/lib/components/ui/statics/GitHubIcon.svelte'
-	import GoogleIcon from '@/lib/components/ui/statics/GoogleIcon.svelte'
-	import Logo from '@/lib/components/ui/statics/Logo.svelte'
-	import { SignInWithCredential } from '@/lib/graphs/usecases/handlers/auth/SignInWithCredential'
-	import { SignInFormStore } from '@/lib/stores/components/forms/SignInFormStore'
+	import { components } from '@/lib/components'
+	import { handlers } from '@/lib/graphs/usecases/handlers'
+	import { stores } from '@/lib/stores'
 	import Layout from '@/routes/(public)/__layout.svelte'
 	import { SignIn } from '@auth/sveltekit/components'
 </script>
@@ -16,34 +11,34 @@
 		<form class='w-[60%] flex flex-col m-auto'>
 			<div class='text-center mb-8'>
 				<div class='mt-20 flex flex-col items-center'>
-					<Logo />
+					<components.statics.Logo />
 				</div>
 				<h1 class='text-2xl font-bold text-sky-800 mt-6'>
 					Sign in to Are you free?
 				</h1>
 			</div>
 
-			<Input
+			<components.forms.Input
 				id='email'
 				label='Email'
 				type='email'
 				placeholder='Email Address'
-				value={SignInFormStore.email}
+				value={stores.SignInFormStore.email}
 			/>
-			<Input
+			<components.forms.Input
 				id='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
-				value={SignInFormStore.password}
+				value={stores.SignInFormStore.password}
 			/>
 			<div class='mt-4'>
-				<SecondaryButton
+				<components.buttons.SecondaryButton
 					name='Sign In'
 					height='h-10'
 					width='w-full'
 					type='submit'
-					onclick={() => SignInWithCredential(SignInFormStore)}
+					onclick={() => handlers.SignInWithCredential(stores.SignInFormStore)}
 				/>
 			</div>
 		</form>
@@ -58,8 +53,8 @@
 					<div
 						slot='submitButton'
 					>
-						<WithIconButton
-							icon={GoogleIcon}
+						<components.buttons.WithIconButton
+							icon={components.statics.GoogleIcon}
 							height='h-10'
 							width='w-32'
 							type='button'
@@ -77,8 +72,8 @@
 					<div
 						slot='submitButton'
 					>
-						<WithIconButton
-							icon={GitHubIcon}
+						<components.buttons.WithIconButton
+							icon={components.statics.GitHubIcon}
 							iconColor='text-white'
 							height='h-10'
 							width='w-32'

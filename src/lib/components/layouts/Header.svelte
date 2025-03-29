@@ -1,7 +1,6 @@
 <script lang='ts'>
 	import { goto } from '$app/navigation'
-	import PrimaryButton from '@/lib/components/ui/buttons/PrimaryButton.svelte'
-	import SecondaryButton from '@/lib/components/ui/buttons/SecondaryButton.svelte'
+	import { components } from '@/lib/components'
 
 	export let isSignIn: boolean = false
 	export let isSignUp: boolean = false
@@ -33,13 +32,13 @@
 
 <div class='flex justify-end w-full py-6'>
 	<div class='flex space-x-4 mr-10'>
-		<PrimaryButton
+		<components.buttons.PrimaryButton
 			name={primaryButtonName}
 			height='h-10'
 			width='w-20'
 			onclick={() => { goto(primaryButtonPath) }}
 		/>
-		<SecondaryButton
+		<components.buttons.SecondaryButton
 			name={secondaryButtonName}
 			height='h-10'
 			width='w-20'

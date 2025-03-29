@@ -1,10 +1,9 @@
 import { providers } from '@/auth'
-import { cfg } from '@/lib/configs'
+import { configs } from '@/lib/configs'
 import { env } from '@/lib/configs/env/private.server'
-import { SignInWithCredential } from '@/lib/graphs/requests/auth/SignInWithCredential'
-import { SignInWithSocial } from '@/lib/graphs/requests/auth/SignInWithSocial'
+import { requests } from '@/lib/graphs/requests'
 import { GetNowInJst } from '@/lib/graphs/requests/date/GetNowInJst'
-import { CalculateExpiresAt } from '@/lib/utils/expiration/CalculateExpiresAt'
+import { expiration } from '@/lib/utils/expiration'
 import { SvelteKitAuth } from '@auth/sveltekit'
 
 let username = ''
@@ -15,10 +14,10 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 	trustHost: true,
 	callbacks: {
 		jwt: async ({ token, account }) => {
-	console.warn(env)
+			console.warn(env)
 			if (account?.provider === 'credentials') {
 				{
-					const [payload, err] = await SignInWithCredential({
+					const [payload, err] = await requests.SignInWithCredential({
 						username:         token.name,
 						email:            token.email,
 						password:         token.password,
@@ -41,7 +40,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					if (err) {
 						return false
 					}
-					const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+
+					const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
 
 					token = {
 						exp: expiresAt,
@@ -50,7 +50,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			}
 
 			if (account?.provider === 'google' || account?.provider === 'github') {
-				let [payload, err] = await SignInWithSocial({
+				let [payload, err] = await requests.SignInWithSocial({
 					username:              token.name,
 					email:                 token.email,
 					authProviderName:      account.provider,
@@ -67,7 +67,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 						return false
 					}
 
-					const expiresAt = CalculateExpiresAt(nowInJst, cfg.expirationDay)
+					const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
 					account.expires_at = expiresAt
 				}
 

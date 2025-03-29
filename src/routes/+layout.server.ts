@@ -1,6 +1,6 @@
 import type { Load } from '@sveltejs/kit'
 
-import { IsExpires } from '@/lib/utils/expiration/IsExpires'
+import { expiration } from '@/lib/utils/expiration'
 import { signOut } from '@auth/sveltekit/client'
 import { redirect } from '@sveltejs/kit'
 
@@ -8,7 +8,7 @@ export const load: Load = async ({ locals }) => {
 	const session = await locals.getSession()
 
 	if (session && session.user) {
-		if (!IsExpires(session.user.exp)) {
+		if (!expiration.IsExpires(session.user.exp)) {
 			throw redirect(302, `/${session.user.name}`)
 		}
 

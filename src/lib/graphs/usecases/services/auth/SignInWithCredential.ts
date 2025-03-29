@@ -1,17 +1,17 @@
 'use server'
 
-import { SignInWithCredential as reqSignInWithCredential } from '@/lib/graphs/requests/auth/SignInWithCredential'
+import { requests } from '@/lib/graphs/requests'
 
 interface SignInWithCredentialProps {
-	email:           string
-	password:        string
+	email:    string
+	password: string
 }
 
 export async function SignInWithCredential({
 	email,
 	password,
 }: SignInWithCredentialProps) {
-	const [res, err] = await reqSignInWithCredential({
+	const [res, err] = await requests.SignInWithCredential({
 		email,
 		password,
 	})

@@ -1,3 +1,3 @@
-export const cfg = {
+export const configs = {
 	expirationDay: 3,
 }
