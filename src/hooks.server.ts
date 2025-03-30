@@ -1,8 +1,8 @@
 import { providers } from '@/auth'
 import { configs } from '@/lib/configs'
 import { env } from '@/lib/configs/env/private.server'
-import { requests } from '@/lib/graphs/requests'
-import { GetNowInJst } from '@/lib/graphs/requests/date/GetNowInJst'
+import { request } from '@/lib/graphs/request'
+import { stores } from '@/lib/stores'
 import { expiration } from '@/lib/utils/expiration'
 import { SvelteKitAuth } from '@auth/sveltekit'
 
@@ -14,43 +14,39 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 	trustHost: true,
 	callbacks: {
 		jwt: async ({ token, account }) => {
-			console.warn(env)
-			if (account?.provider === 'credentials') {
-				{
-					const [payload, err] = await requests.SignInWithCredential({
-						username:         token.name,
-						email:            token.email,
-						password:         token.password,
-						authProviderName: account.provider,
-					})
-					if (err) {
-						return false
-					}
+			const [nowInJst, err] = await request.GetNowInJst()
+			if (err) {
+				return false
+			}
 
-					token = {
-						user: {
-							id:   payload.token,
-							name: payload.username,
-						},
-					}
+			// 現在時刻（JST）をDateオブジェクトに変換し、ストアに保存
+			const now = new Date(nowInJst)
+			stores.NowInJSTStore.set(now)
+
+			if (account?.provider === 'credentials') {
+				const [payload, err] = await request.SignInWithCredential({
+					username:         token.name,
+					email:            token.email,
+					password:         token.password,
+					authProviderName: account.provider,
+				})
+				if (err) {
+					return false
 				}
 
-				{
-					const [nowInJst, err] = await GetNowInJst()
-					if (err) {
-						return false
-					}
+				const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
 
-					const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
-
-					token = {
-						exp: expiresAt,
-					}
+				token = {
+					user: {
+						id:   payload.token,
+						name: payload.username,
+					},
+					exp: expiresAt,
 				}
 			}
 
 			if (account?.provider === 'google' || account?.provider === 'github') {
-				let [payload, err] = await requests.SignInWithSocial({
+				let [payload, err] = await request.SignInWithSocial({
 					username:              token.name,
 					email:                 token.email,
 					authProviderName:      account.provider,
@@ -62,11 +58,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				}
 
 				if (!account?.expires_at) {
-					let [nowInJst, err] = await GetNowInJst()
-					if (err) {
-						return false
-					}
-
 					const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
 					account.expires_at = expiresAt
 				}
@@ -79,8 +70,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					exp: account.expires_at,
 				}
 			}
-			console.warn('22222222222222222222')
-			console.warn('token', token)
 			return token
 		},
 		session: async ({ token, session }) => {
@@ -96,10 +85,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				exp: token.exp,
 			}
 			username = token.user.name
-			console.warn('111111111	1111111111')
-			console.warn('session', session)
-			console.warn('token', token)
-			console.warn('username', username)
 			return session
 		},
 		redirect: async ({ url, baseUrl }) => {

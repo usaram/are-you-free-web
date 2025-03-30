@@ -1,5 +1,5 @@
 <script>
-	import { HealthCheckForBackend } from '@/lib/graphs/requests/HealthCheckForBackend'
+	import { HealthCheckForBackend } from '@/lib/graphs/request/HealthCheckForBackend'
 </script>
 
 <div>

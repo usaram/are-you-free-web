@@ -9,7 +9,7 @@
 
 	onMount(async () => {
 		clockIcon = (
-			await import(`@/lib/components/ui/icons/clock/${data.clockIcon}.svelte`)
+			await import(`@/lib/components/icon/clock/${data.clockIcon}.svelte`)
 		).default
 	})
 

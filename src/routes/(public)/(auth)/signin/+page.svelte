@@ -1,6 +1,6 @@
 <script lang='ts'>
 	import { components } from '@/lib/components'
-	import { handlers } from '@/lib/graphs/usecases/handlers'
+	import { handler } from '@/lib/graphs/usecase/handler'
 	import { stores } from '@/lib/stores'
 	import Layout from '@/routes/(public)/__layout.svelte'
 	import { SignIn } from '@auth/sveltekit/components'
@@ -11,21 +11,21 @@
 		<form class='w-[60%] flex flex-col m-auto'>
 			<div class='text-center mb-8'>
 				<div class='mt-20 flex flex-col items-center'>
-					<components.statics.Logo />
+					<components.asset.Logo />
 				</div>
 				<h1 class='text-2xl font-bold text-sky-800 mt-6'>
 					Sign in to Are you free?
 				</h1>
 			</div>
 
-			<components.forms.Input
+			<components.form.Input
 				id='email'
 				label='Email'
 				type='email'
 				placeholder='Email Address'
 				value={stores.SignInFormStore.email}
 			/>
-			<components.forms.Input
+			<components.form.Input
 				id='password'
 				label='Password'
 				type='password'
@@ -33,12 +33,12 @@
 				value={stores.SignInFormStore.password}
 			/>
 			<div class='mt-4'>
-				<components.buttons.SecondaryButton
+				<components.button.SecondaryButton
 					name='Sign In'
 					height='h-10'
 					width='w-full'
 					type='submit'
-					onclick={() => handlers.SignInWithCredential(stores.SignInFormStore)}
+					onclick={() => handler.SignInWithCredential(stores.SignInFormStore)}
 				/>
 			</div>
 		</form>
@@ -53,8 +53,8 @@
 					<div
 						slot='submitButton'
 					>
-						<components.buttons.WithIconButton
-							icon={components.statics.GoogleIcon}
+						<components.button.WithIconButton
+							icon={components.asset.GoogleIcon}
 							height='h-10'
 							width='w-32'
 							type='button'
@@ -72,8 +72,8 @@
 					<div
 						slot='submitButton'
 					>
-						<components.buttons.WithIconButton
-							icon={components.statics.GitHubIcon}
+						<components.button.WithIconButton
+							icon={components.asset.GitHubIcon}
 							iconColor='text-white'
 							height='h-10'
 							width='w-32'

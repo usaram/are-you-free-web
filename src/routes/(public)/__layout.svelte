@@ -9,7 +9,7 @@
 <Layout>
 	<!-- Header Section -->
 	<div slot='header' class='h-[10%] flex flex-none'>
-		<components.layouts.Header {isSignIn} {isSignUp} />
+		<components.layout.Header {isSignIn} {isSignUp} />
 	</div>
 
 	<!-- Main Section -->

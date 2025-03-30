@@ -1,16 +1,32 @@
+import type { Writable } from 'svelte/store'
+
 /**
- * 指定された現在時刻と有効期限を比較し、期限切れかどうかを判定します。
+ * 有効期限が現在時刻を超えているかを判定する関数
  *
- * @param nowInJST - 現在時刻を表す ISO 8601 形式の文字列 (例: "2025-03-27T12:00:00+09:00")
- * @param expiresAt - 有効期限を表すタイムスタンプ (ミリ秒単位)
- * @returns 期限切れの場合は true、そうでない場合は false
+ * @param expiresAt - 有効期限のタイムスタンプ（秒単位）
+ * @param nowInJSTStore - 現在時刻（JST）を保持する Svelte の Writable ストア
+ * @returns 有効期限切れの場合は true、それ以外は false
  *
- * @throws エラー - nowInJST が無効な日付形式の場合
+ * @throws TypeError - 現在時刻が無効な場合
  */
-export function IsExpires(nowInJST: string, expiresAt: number): boolean {
-	const now = new Date(nowInJST);
-	if (isNaN(now.getTime())) {
-			throw new Error("Invalid date format for nowInJST");
-	}
-	return now.getTime() > expiresAt; // 現在時刻が有効期限を超えているかを判定
+export function IsExpires(expiresAt: number, nowInJSTStore: Writable<Date>): boolean {
+    let nowInJST: number | undefined
+
+    // ストアから現在時刻を取得
+    // ストアの値（Date オブジェクト）を nowInJST に代入
+    nowInJSTStore.subscribe((value) => {
+        nowInJST = value
+    })()
+
+    // 現在時刻が取得できない場合はエラーをスロー
+    if (!nowInJST) {
+        throw new TypeError('Invalid date format for nowInJST')
+    }
+
+    // 現在時刻を秒単位のタイムスタンプに変換
+    const nowInJSTAt = Math.floor(nowInJST.getTime() / 1000)
+
+    // 有効期限が現在時刻を超えているかを判定
+    // 有効期限が現在よりも前 = 有効期限切れ（true）
+    return expiresAt < nowInJSTAt
 }

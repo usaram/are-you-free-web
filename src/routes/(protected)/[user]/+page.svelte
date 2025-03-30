@@ -1,6 +1,5 @@
 <script lang='ts'>
 	import { signOut } from '@auth/sveltekit/client'
-
 </script>
 
 <h1>hoge</h1>
