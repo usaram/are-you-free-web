@@ -80,6 +80,7 @@ export type MutationUpdateIconArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getHolidays: Array<Maybe<Scalars['Date']['output']>>;
   getIcon: Icon;
   getIcons: Array<Icon>;
   getNowInJST: Scalars['Date']['output'];
@@ -156,6 +157,11 @@ export type SignUpWithCredentialMutationVariables = Exact<{
 
 
 export type SignUpWithCredentialMutation = { __typename?: 'Mutation', payload: { __typename?: 'SignUpPayload', isSuccess: boolean } };
+
+export type GetHolidaysQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHolidaysQuery = { __typename?: 'Query', holidays: Array<any | null> };
 
 export type GetNowInJstQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -312,6 +318,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getHolidays: Resolver<Array<Maybe<ResolversTypes['Date']>>, ParentType, ContextType>;
   getIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
   getIcons: Resolver<Array<ResolversTypes['Icon']>, ParentType, ContextType>;
   getNowInJST: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
@@ -378,6 +385,11 @@ export const SignUpWithCredentialDocument = gql`
   }
 }
     `;
+export const GetHolidaysDocument = gql`
+    query GetHolidays {
+  holidays: getHolidays
+}
+    `;
 export const GetNowInJstDocument = gql`
     query GetNowInJst {
   nowInJST: getNowInJST
@@ -404,6 +416,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     SignUpWithCredential(variables: SignUpWithCredentialMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SignUpWithCredentialMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SignUpWithCredentialMutation>(SignUpWithCredentialDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SignUpWithCredential', 'mutation', variables);
+    },
+    GetHolidays(variables?: GetHolidaysQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetHolidaysQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetHolidaysQuery>(GetHolidaysDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetHolidays', 'query', variables);
     },
     GetNowInJst(variables?: GetNowInJstQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNowInJstQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetNowInJstQuery>(GetNowInJstDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNowInJst', 'query', variables);
