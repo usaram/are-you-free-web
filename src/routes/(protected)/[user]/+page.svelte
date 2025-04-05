@@ -3,54 +3,63 @@
 	import type { DayProps } from '@/lib/types/DayProps'
 	import { configs } from '@/lib/configs'
 	import { stores } from '@/lib/stores'
+	import { utils } from '@/lib/utils'
 	import Layout from '@/routes/(protected)/__layout.svelte'
 
+	// サーバーサイドでデータを取得する
 	export let data: {
 		calendar: DayProps[][]
 		err:      err
 	}
-
 	stores.CalendarStore.set(data.calendar)
+	$: calendar = stores.CalendarStore
 
+	// カレンダーの表示月を管理する変数
+	// 0: 今月、1: 来月、2: 再来月
 	let calendarOffset = 0
 
-	// 月を前に移動（ただし今月より前には行かない）
-	function prevMonth() {
-		if (calendarOffset > 0) {
-			calendarOffset--
-		}
-	}
-
-	// 月を次に移動（ただし再来月より後には行かない）
-	function nextMonth() {
-		if (calendarOffset < configs.CalendarDisplayMonths - 1) {
-			calendarOffset++
-		}
-	}
-
-	function getYearMonth(monthOffset: number): string {
-		const date = new Date()
-		date.setMonth(date.getMonth() + monthOffset)
-		const year = date.getFullYear()
-		const month = String(date.getMonth() + 1).padStart(2, '0') // 月を2桁にフォーマット
-		return `${year} / ${month}`
-	}
-
-	// 月名を取得する関数
-	function getMonthName(monthOffset: number): string {
-		const date = new Date()
-		date.setMonth(date.getMonth() + monthOffset)
-		return date.toLocaleString('en-US', { month: 'long' })
-	}
-
-	// 月名のリスト
 	const monthNames = []
 	for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
-		monthNames.push(getMonthName(i))
+		monthNames.push(utils.GetMonthNameInEnglish(i))
 	}
 
+// // 月を前に移動（ただし今月より前には行かない）
+	// function prevMonth() {
+	// 	if (calendarOffset > 0) {
+	// 		calendarOffset--
+	// 	}
+	// }
+
+	// // 月を次に移動（ただし再来月より後には行かない）
+	// function nextMonth() {
+	// 	if (calendarOffset < configs.CalendarDisplayMonths - 1) {
+	// 		calendarOffset++
+	// 	}
+	// }
+
+	// function getYearMonth(monthOffset: number): string {
+	// 	const date = new Date()
+	// 	date.setMonth(date.getMonth() + monthOffset)
+	// 	const year = date.getFullYear()
+	// 	const month = String(date.getMonth() + 1).padStart(2, '0') // 月を2桁にフォーマット
+	// 	return `${year} / ${month}`
+	// }
+
+	// // 月名を取得する関数
+	// function getMonthName(monthOffset: number): string {
+	// 	const date = new Date()
+	// 	date.setMonth(date.getMonth() + monthOffset)
+	// 	return date.toLocaleString('en-US', { month: 'long' })
+	// }
+
+	// 月名のリスト
+	// const monthNames = []
+	// for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
+	// 	monthNames.push(getMonthName(i))
+	// }
+
 	// let calendar = stores.CalendarStore
-	$: calendar = stores.CalendarStore
+
 </script>
 
 <Layout>
@@ -60,7 +69,7 @@
 			<div class='flex justify-between items-center mb-6'>
 				<button
 					class='p-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-					on:click={prevMonth}
+					on:click={utils.PrevMonth(calendarOffset)}
 					disabled={calendarOffset === 0}
 					aria-label='Previous Month'
 				>
@@ -69,11 +78,11 @@
 					</svg>
 				</button>
 
-				<h2 class='text-2xl font-bold text-gray-800'>{getYearMonth(calendarOffset)}</h2>
+				<h2 class='text-2xl font-bold text-gray-800'>{utils.GetYearMonth(calendarOffset)}</h2>
 
 				<button
 					class='p-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-					on:click={nextMonth}
+					on:click={utils.NextMonth(calendarOffset, configs.CalendarDisplayMonths)}
 					disabled={calendarOffset === configs.CalendarDisplayMonths - 1}
 					aria-label='Next Month'
 				>
