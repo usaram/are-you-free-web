@@ -9,6 +9,7 @@
 		"checkJs": true,
 		"strict": true,
 		"noImplicitAny": false,
+		"importsNotUsedAsValues": "preserve",
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,

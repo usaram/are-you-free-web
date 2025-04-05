@@ -1,7 +1,7 @@
-import Footer from '@/lib/components/layout/Footer.svelte'
-import Header from '@/lib/components/layout/Header.svelte'
+import { protected } from '@/lib/components/layout/protected'
+import { public } from '@/lib/components/layout/public'
 
 export const layout = {
-	Header,
-	Footer,
+	public,
+	protected,
 }

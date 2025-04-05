@@ -1,10 +1,136 @@
 <script lang='ts'>
+	import type { err } from '@/lib/types'
+	import type { DayProps } from '@/lib/types/DayProps'
+	import { configs } from '@/lib/configs'
 	import { stores } from '@/lib/stores'
-	import { utils } from '@/lib/utils'
-	import { signOut } from '@auth/sveltekit/client'
+	import Layout from '@/routes/(protected)/__layout.svelte'
 
-	utils.GenerateCalendar(0, stores.NowInJSTStore, stores.HolidaysStore, stores.CalendarStore)
+	export let data: {
+		calendar: DayProps[][]
+		err:      err
+	}
+
+	stores.CalendarStore.set(data.calendar)
+
+	let calendarOffset = 0
+
+	// 月を前に移動（ただし今月より前には行かない）
+	function prevMonth() {
+		if (calendarOffset > 0) {
+			calendarOffset--
+		}
+	}
+
+	// 月を次に移動（ただし再来月より後には行かない）
+	function nextMonth() {
+		if (calendarOffset < configs.CalendarDisplayMonths - 1) {
+			calendarOffset++
+		}
+	}
+
+	// 月名を取得する関数
+	function getMonthName(monthOffset) {
+		const date = new Date()
+		date.setMonth(date.getMonth() + monthOffset)
+		return date.toLocaleString('ja-JP', { year: 'numeric', month: 'long' })
+	}
+
+	// 月名のリスト
+	const monthNames = []
+	for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
+		monthNames.push(getMonthName(i))
+	}
+
+	// let calendar = stores.CalendarStore
+	$: calendar = stores.CalendarStore
 </script>
 
-<h1>hoge</h1>
-<button on:click={() => signOut()}>Sign out</button>
+<Layout>
+	<div class='w-full mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl'>
+		<div class='p-6'>
+			<!-- 月の切り替え -->
+			<div class='flex justify-between items-center mb-6'>
+				<button
+					class='p-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+					on:click={prevMonth}
+					disabled={calendarOffset === 0}
+					aria-label='Previous Month'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+						<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 19l-7-7 7-7' />
+					</svg>
+				</button>
+
+				<h2 class='text-2xl font-bold text-gray-800'>{getMonthName(calendarOffset)}</h2>
+
+				<button
+					class='p-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+					on:click={nextMonth}
+					disabled={calendarOffset === configs.CalendarDisplayMonths - 1}
+					aria-label='Next Month'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+						<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5l7 7-7 7' />
+					</svg>
+				</button>
+			</div>
+
+			<!-- 月スライダー -->
+			<div class='mb-6'>
+				<div class='relative pt-1'>
+					<input
+						type='range'
+						min='0'
+						max={configs.CalendarDisplayMonths - 1}
+						step='1'
+						bind:value={calendarOffset}
+						class='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500'
+					/>
+					<div class='flex justify-between text-xs text-gray-600 mt-2'>
+						{#each monthNames as name, i}
+							<span
+								class='inline-block w-1/3'
+								class:text-left={i === 0}
+								class:text-right={i === monthNames.length - 1}
+								class:text-center={i !== 0 && i !== monthNames.length - 1}
+							>
+								{name}
+							</span>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- カレンダーグリッド -->
+			<div class='bg-gray-50 rounded-xl p-4'>
+				<div class='grid grid-cols-7 gap-2'>
+					<!-- 曜日名 -->
+					{#each configs.weekdays as day, i}
+						<div class="text-center font-medium text-sm py-2
+							{i === 0 ? 'text-red-500' : ''}
+							{i === 6 ? 'text-blue-500' : ''}">
+							{day}
+						</div>
+					{/each}
+
+					<!-- カレンダーの日付 -->
+					{#each $calendar[calendarOffset] as { day, isCurrentDay, isWeekend, isHoliday }, i}
+						<div
+							class="relative aspect-square flex flex-col items-center justify-center rounded-lg
+								{day === 0 ? 'invisible' : 'bg-white shadow-sm hover:shadow-md transition-shadow'}
+								{isCurrentDay ? 'ring-2 ring-indigo-500' : ''}
+								{isWeekend && !isCurrentDay ? (i % 7 === 0 ? 'text-red-500' : i % 7 === 6 ? 'text-blue-500' : '') : ''}
+								{isHoliday && !isCurrentDay ? 'bg-red-50' : ''}"
+						>
+							<span class='text-sm font-medium'>{day || ''}</span>
+							{#if isCurrentDay}
+								<div class='absolute -top-1 -right-1 w-3 h-3 bg-indigo-500 rounded-full'></div>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</Layout>

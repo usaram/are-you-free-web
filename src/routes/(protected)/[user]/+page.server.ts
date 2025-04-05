@@ -1,15 +1,36 @@
+import type { err } from '@/lib/types'
+import type { DayProps } from '@/lib/types/DaysProps'
+import type { Load } from '@sveltejs/kit'
 import { request } from '@/lib/graphs/request'
-import { stores } from '@/lib/stores'
-import { get } from 'svelte/store'
+import { utils } from '@/lib/utils'
 
-export const load: Load = async () => {
-	if (get(stores.HolidaysStore).length === 0) {
-		const [holidays, err] = await request.GetHolidays()
-		if (err) {
-			return {
-				err,
-			}
+export const load: Load<Promise<{
+	calendar: DayProps[][]
+	err:      err
+}>> = async () => {
+	const [nowInJST, NowInJSTErr] = await request.GetNowInJst()
+	if (NowInJSTErr) {
+		return {
+			calendar: [],
+			err:      NowInJSTErr,
 		}
-		stores.HolidaysStore.set(holidays)
+	}
+
+	const [holidays, GetHolidaysErr] = await request.GetHolidays()
+	if (GetHolidaysErr) {
+		return {
+			calendar: [],
+			err:      GetHolidaysErr,
+		}
+	}
+
+	const calendar = utils.GenerateCalendar(
+		nowInJST,
+		holidays,
+	)
+
+	return {
+		calendar,
+		err: null,
 	}
 }
