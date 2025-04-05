@@ -80,7 +80,7 @@ export type MutationUpdateIconArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getHolidays: Array<Maybe<Scalars['Date']['output']>>;
+  getHolidays: Array<Scalars['Date']['output']>;
   getIcon: Icon;
   getIcons: Array<Icon>;
   getNowInJST: Scalars['Date']['output'];
@@ -161,7 +161,7 @@ export type SignUpWithCredentialMutation = { __typename?: 'Mutation', payload: {
 export type GetHolidaysQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetHolidaysQuery = { __typename?: 'Query', holidays: Array<any | null> };
+export type GetHolidaysQuery = { __typename?: 'Query', holidays: Array<any> };
 
 export type GetNowInJstQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -318,7 +318,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getHolidays: Resolver<Array<Maybe<ResolversTypes['Date']>>, ParentType, ContextType>;
+  getHolidays: Resolver<Array<ResolversTypes['Date']>, ParentType, ContextType>;
   getIcon: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
   getIcons: Resolver<Array<ResolversTypes['Icon']>, ParentType, ContextType>;
   getNowInJST: Resolver<ResolversTypes['Date'], ParentType, ContextType>;

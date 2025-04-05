@@ -9,7 +9,7 @@ import type { Writable } from 'svelte/store'
  *
  * @throws TypeError - 現在時刻が無効な場合
  */
-export function IsExpires(expiresAt: number, nowInJSTStore: Writable<Date>): boolean {
+export function IsExpiresAt(expiresAt: number, nowInJSTStore: Writable<Date>): boolean {
     let nowInJST: number | undefined
 
     // ストアから現在時刻を取得

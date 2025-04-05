@@ -3,7 +3,7 @@ import { configs } from '@/lib/configs'
 import { env } from '@/lib/configs/env/private.server'
 import { request } from '@/lib/graphs/request'
 import { stores } from '@/lib/stores'
-import { expiration } from '@/lib/utils/expiration'
+import { utils } from '@/lib/utils'
 import { SvelteKitAuth } from '@auth/sveltekit'
 
 let username = ''
@@ -34,7 +34,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					return false
 				}
 
-				const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
+				const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.expirationDay)
 
 				token = {
 					user: {
@@ -58,7 +58,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				}
 
 				if (!account?.expires_at) {
-					const expiresAt = expiration.CalculateExpiresAt(nowInJst, configs.expirationDay)
+					const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.expirationDay)
 					account.expires_at = expiresAt
 				}
 

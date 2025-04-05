@@ -1,7 +1,7 @@
 'use server'
 
 import type { MutationSignUpWithCredentialArgs, SignUpPayload, SignUpWithCredentialInput, SignUpWithCredentialMutation } from '@/lib/graphs/generated/types'
-import type { err } from '@/lib/types/err'
+import type { err } from '@/lib/types'
 import { client } from '@/lib/graphs'
 import { mutation } from '@/lib/graphs/schema/mutation'
 

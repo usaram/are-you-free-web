@@ -1,23 +1,14 @@
-import type { SignInFormStoreProps } from '@/lib/types/components/form/SignInFormStoreProps'
-import type { SignUpFormStoreProps } from '@/lib/types/components/form/SignUpFormStoreProps'
-import type { NowInJSTStoreProps } from '@/lib/types/graphs/date/NowInJSTStoreProps'
 import type { Session } from '@auth/core/types'
+import { components } from '@/lib/types/components'
+import { stores } from '@/lib/types/stores'
 
-export interface err {
-	Error: ()=> string | null
-}
+export type err = string | null
 
 export interface session {
 	session: Session
 }
 
 export const types = {
-	// components
-	// * form
-	SignInFormStoreProps,
-	SignUpFormStoreProps,
-
-	// graphs
-	// * date
-	NowInJSTStoreProps,
+	components,
+	stores,
 }

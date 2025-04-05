@@ -1,9 +1,9 @@
-import type { SignUpFormStoreProps } from '@/lib/types/components/form/SignUpFormStoreProps'
+import { types } from '@/lib/types'
 import { goto } from '$app/navigation'
 import { service } from '@/lib/graphs/usecase/service'
 import { get } from 'svelte/store'
 
-export async function SignUpWithCredential(SignUpFormStore: SignUpFormStoreProps) {
+export async function SignUpWithCredential(SignUpFormStore: types.stores.SignUpFormStoreProps) {
 	const [res, err] = await service.SignUpWithCredential({
 		username:        get(SignUpFormStore.username),
 		email:           get(SignUpFormStore.email),

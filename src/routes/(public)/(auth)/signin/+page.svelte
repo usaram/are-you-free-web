@@ -23,14 +23,14 @@
 				label='Email'
 				type='email'
 				placeholder='Email Address'
-				value={stores.SignInFormStore.email}
+				value={stores.components.form.SignInFormStore.email}
 			/>
 			<components.form.Input
 				id='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
-				value={stores.SignInFormStore.password}
+				value={stores.components.form.SignInFormStore.password}
 			/>
 			<div class='mt-4'>
 				<components.button.SecondaryButton
@@ -38,7 +38,7 @@
 					height='h-10'
 					width='w-full'
 					type='submit'
-					onclick={() => handler.SignInWithCredential(stores.SignInFormStore)}
+					onclick={() => handler.SignInWithCredential(stores.components.form.SignInFormStore)}
 				/>
 			</div>
 		</form>

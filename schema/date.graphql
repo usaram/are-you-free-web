@@ -1,6 +1,6 @@
 extend type Query {
   getNowInJST: Date!
-	getHolidays: [Date]!
+	getHolidays: [Date!]!
 }
 
 scalar Date
