@@ -29,7 +29,7 @@ export const load: Load<Promise<{
 		holidays,
 	)
 
-	// console.log('calendar', calendar)
+	console.warn('calendar', calendar)
 
 	return {
 		calendar,

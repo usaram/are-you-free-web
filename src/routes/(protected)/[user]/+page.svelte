@@ -54,7 +54,7 @@
 </script>
 
 <Layout>
-	<div class='w-full mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl'>
+	<div class='w-full m-auto bg-white rounded-xl shadow-lg lg:max-w-3xl'>
 		<div class='p-6'>
 			<!-- 月の切り替え -->
 			<div class='flex justify-between items-center mb-6'>
@@ -122,20 +122,22 @@
 					{/each}
 
 					<!-- カレンダーの日付 -->
-					{#each $calendar[calendarOffset] as { day, isCurrentDay, isWeekend, isHoliday, isPastDay }, i}
+					{#each $calendar[calendarOffset] as { day, isCurrentDay, isPastDay, isWeekend, isHoliday }, i}
 						<button
 							class='relative aspect-square flex flex-col items-center justify-center rounded-lg'
-							class:bg-white={day !== 0}
+							class:bg-white={!isPastDay && day !== 0}
+							class:hover:bg-neutral-200={!isPastDay && day !== 0}
+							class:cursor-not-allowed={isPastDay}
 							class:shadow-sm={day !== 0}
-							class:hover:shadow-md={day !== 0}
+							class:hover:shadow-lg={!isPastDay && day !== 0}
 							class:ring-2={isCurrentDay}
 							class:ring-indigo-500={isCurrentDay}
-							class:text-red-500={isWeekend && !isCurrentDay && i % 7 === 0}
-							class:text-blue-500={isWeekend && !isCurrentDay && i % 7 === 6}
+							class:text-red-500={isHoliday || (isWeekend && i % 7 === 0)}
+							class:text-blue-500={(!isHoliday && isWeekend && i % 7 === 6)}
 							class:bg-red-50={isHoliday && !isCurrentDay}
 							disabled={isPastDay}
 						>
-							<span class='text-sm font-medium'>{day || ''}</span>
+							<span class='text-md font-medium'>{day || ''}</span>
 							{#if isCurrentDay}
 								<div class='absolute -top-1 -right-1 w-3 h-3 bg-indigo-500 rounded-full'></div>
 							{/if}
@@ -143,7 +145,6 @@
 					{/each}
 				</div>
 			</div>
-
 		</div>
 	</div>
 </Layout>
