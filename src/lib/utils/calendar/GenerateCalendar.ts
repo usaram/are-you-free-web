@@ -8,6 +8,8 @@ export function GenerateCalendar(
 ): DayProps[][] {
 	let calendar: DayProps[][] = []
 
+	console.log('nowInJST', nowInJST)
+
 	nowInJST = new Date(nowInJST)
 	const year = nowInJST.getFullYear()
 	const month = nowInJST.getMonth()
@@ -15,7 +17,7 @@ export function GenerateCalendar(
 	// 指定された月数分ループ
 	for (let offset = 0; offset < configs.CalendarDisplayMonths; offset++) {
 		const targetYear = year + Math.floor((month + offset) / 12)
-		const targetMonth = (month + offset) % 12
+		const targetMonth = month + offset
 
 		const firstDay = new Date(year, targetMonth, 1)
 		const lastDay = new Date(year, targetMonth + 1, 0)
@@ -30,10 +32,10 @@ export function GenerateCalendar(
 		for (let i = 0; i < startingDayOfWeek; i++) {
 			days.push({
 				year:				     targetYear,
-				month:			     targetMonth,
+				month:			     targetMonth + 1,
 				day:          0,
-				date:         null,
 				isCurrentDay: false,
+				isPastDay:    false,
 				isWeekend:    false,
 				isHoliday:    false,
 			})
@@ -50,6 +52,9 @@ export function GenerateCalendar(
                 	&& date.getMonth() === nowInJST.getMonth()
                 	&& date.getFullYear() === nowInJST.getFullYear()
 
+			// 今日より前の日かどうかを判定
+			const isPastDay = date < nowInJST && !isCurrentDay
+
 			// 土曜日または日曜日かどうかを判定
 			const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
 
@@ -65,10 +70,10 @@ export function GenerateCalendar(
 
 			days.push({
 				year:  targetYear,
-				month: targetMonth,
+				month: targetMonth + 1,
 				day,
-				date,
 				isCurrentDay,
+				isPastDay,
 				isWeekend,
 				isHoliday,
 			})

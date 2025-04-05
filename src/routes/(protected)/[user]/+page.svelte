@@ -28,11 +28,19 @@
 		}
 	}
 
-	// 月名を取得する関数
-	function getMonthName(monthOffset) {
+	function getYearMonth(monthOffset: number): string {
 		const date = new Date()
 		date.setMonth(date.getMonth() + monthOffset)
-		return date.toLocaleString('ja-JP', { year: 'numeric', month: 'long' })
+		const year = date.getFullYear()
+		const month = String(date.getMonth() + 1).padStart(2, '0') // 月を2桁にフォーマット
+		return `${year} / ${month}`
+	}
+
+	// 月名を取得する関数
+	function getMonthName(monthOffset: number): string {
+		const date = new Date()
+		date.setMonth(date.getMonth() + monthOffset)
+		return date.toLocaleString('en-US', { month: 'long' })
 	}
 
 	// 月名のリスト
@@ -61,7 +69,7 @@
 					</svg>
 				</button>
 
-				<h2 class='text-2xl font-bold text-gray-800'>{getMonthName(calendarOffset)}</h2>
+				<h2 class='text-2xl font-bold text-gray-800'>{getYearMonth(calendarOffset)}</h2>
 
 				<button
 					class='p-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
@@ -114,19 +122,24 @@
 					{/each}
 
 					<!-- カレンダーの日付 -->
-					{#each $calendar[calendarOffset] as { day, isCurrentDay, isWeekend, isHoliday }, i}
-						<div
-							class="relative aspect-square flex flex-col items-center justify-center rounded-lg
-								{day === 0 ? 'invisible' : 'bg-white shadow-sm hover:shadow-md transition-shadow'}
-								{isCurrentDay ? 'ring-2 ring-indigo-500' : ''}
-								{isWeekend && !isCurrentDay ? (i % 7 === 0 ? 'text-red-500' : i % 7 === 6 ? 'text-blue-500' : '') : ''}
-								{isHoliday && !isCurrentDay ? 'bg-red-50' : ''}"
+					{#each $calendar[calendarOffset] as { day, isCurrentDay, isWeekend, isHoliday, isPastDay }, i}
+						<button
+							class='relative aspect-square flex flex-col items-center justify-center rounded-lg'
+							class:bg-white={day !== 0}
+							class:shadow-sm={day !== 0}
+							class:hover:shadow-md={day !== 0}
+							class:ring-2={isCurrentDay}
+							class:ring-indigo-500={isCurrentDay}
+							class:text-red-500={isWeekend && !isCurrentDay && i % 7 === 0}
+							class:text-blue-500={isWeekend && !isCurrentDay && i % 7 === 6}
+							class:bg-red-50={isHoliday && !isCurrentDay}
+							disabled={isPastDay}
 						>
 							<span class='text-sm font-medium'>{day || ''}</span>
 							{#if isCurrentDay}
 								<div class='absolute -top-1 -right-1 w-3 h-3 bg-indigo-500 rounded-full'></div>
 							{/if}
-						</div>
+						</button>
 					{/each}
 				</div>
 			</div>

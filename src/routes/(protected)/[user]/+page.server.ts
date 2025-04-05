@@ -29,6 +29,8 @@ export const load: Load<Promise<{
 		holidays,
 	)
 
+	// console.log('calendar', calendar)
+
 	return {
 		calendar,
 		err: null,
