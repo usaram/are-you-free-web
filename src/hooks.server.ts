@@ -34,7 +34,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					return false
 				}
 
-				const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.expirationDay)
+				const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.ExpirationDay)
 
 				token = {
 					user: {
@@ -58,7 +58,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				}
 
 				if (!account?.expires_at) {
-					const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.expirationDay)
+					const expiresAt = utils.CalculateExpiresAt(nowInJst, configs.E)
 					account.expires_at = expiresAt
 				}
 

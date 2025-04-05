@@ -1,6 +1,6 @@
 import { GenerateCalendar } from '@/lib/utils/calendar'
 import { DebounceFunction, DebounceKeyUp, DebounceOnClick } from '@/lib/utils/debounce'
-import { CalulateExpiresAt, IsExpiresAt } from '@/lib/utils/expiration'
+import { CalculateExpiresAt, IsExpiresAt } from '@/lib/utils/expiration'
 
 export const utils = {
 	// calendar
@@ -12,6 +12,6 @@ export const utils = {
 	DebounceOnClick,
 
 	// expiration
-	CalulateExpiresAt,
+	CalculateExpiresAt,
 	IsExpiresAt,
 }

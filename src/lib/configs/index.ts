@@ -1,3 +1,4 @@
 export const configs = {
-	expirationDay: 3,
+	ExpirationDay: 3,
+	CalendarDisplayMonths: 3,
 }

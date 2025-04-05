@@ -1,2 +1,2 @@
-export { CalulateExpiresAt } from './CalculateExpiresAt'
+export { CalculateExpiresAt } from './CalculateExpiresAt'
 export { IsExpiresAt } from './IsExpiresAt'
