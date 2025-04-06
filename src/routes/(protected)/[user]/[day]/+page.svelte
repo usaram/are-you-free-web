@@ -9,19 +9,26 @@
 	let selectedRange: { start: string, end: string } = { start: '', end: '' }
 	let containerRef: HTMLElement | null
 
+	// 1時間ごとの時間スロットを生成
+	// 5:00から23:00までの時間スロットを生成
 	const timeSlots = Array.from({ length: 19 }, (_, i) => {
 		const hour = (5 + i) % 24
 		return `${hour.toString().padStart(2, '0')}:00`
 	})
 
+	// 15分ごとの時間スロットを生成
+	// 5:00から00:00までの時間スロットを生成
 	const quarterHourSlots = timeSlots.flatMap((time, index) => {
 		const [hour] = time.split(':').map(Number)
 
+		// 15分ごとのスロットを生成
+		// 0, 15, 30, 45分のスロットを生成
 		const slots = Array.from({ length: 4 }, (_, i) => {
 			const minutes = i * 15
 			return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
 		})
 
+		// 最後のインデックスが23:45のため、00:00を追加
 		if (index === timeSlots.length - 1) {
 			slots.push('00:00')
 		}
