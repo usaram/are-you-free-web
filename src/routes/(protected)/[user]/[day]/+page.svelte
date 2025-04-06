@@ -1,5 +1,6 @@
 <script lang='ts'>
-	import { configs } from '@/lib/configs';
+	import { configs } from '@/lib/configs'
+	import { utils } from '@/lib/utils'
 	import Layout from '@/routes/(protected)/__layout.svelte'
 
 	export let date = new Date()
@@ -10,7 +11,8 @@
 	let selectedRange: { start: string, end: string } = { start: '', end: '' }
 	let containerRef: HTMLDivElement | null
 
-	const hourlyTimeSlots =  (configs.ScheduleStartTime, configs.ScheduleEndTime)
+	const hourlyTimeSlots = utils.GenerateHourlyTimeSlots(configs.ScheduleStartTime, configs.ScheduleEndTime)
+	const quarterlyHourTimeSlots = utils.GenerateQuarterlyHourTimeSlots()
 	// // 1時間ごとの時間スロットを生成
 	// // 5:00から23:00までの時間スロットを生成
 	// const timeSlots = Array.from({ length: 19 }, (_, i) => {
@@ -75,7 +77,6 @@
 	// 	return [quarterlyHourTimeSlots[slotIndexMinY], quarterlyHourTimeSlots[slotIndexMaxY]]
 	// }
 
-
 	function handleMouseDown(e) {
 		selecting = true
 		const y = e.clientY
@@ -106,7 +107,7 @@
 		const maxY = Math.max(startY, currentY)
 
 		// const [startTime, endTime] = yToTime(minY, maxY)
-		const [startTime, endTime] = CalculateTimeFromY(minY, maxY, containerRef, quarterlyHourTimeSlots)
+		const [startTime, endTime] = utils.CalculateTimeFromY(minY, maxY, containerRef, quarterlyHourTimeSlots)
 
 		selectedRange = {
 			start: startTime,

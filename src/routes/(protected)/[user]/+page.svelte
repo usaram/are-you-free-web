@@ -20,9 +20,10 @@
 	let calendarOffset = 0
 
 	// カレンダーに表示する月名のリストを生成
-	const monthNames = []
+	const monthNames: string[] = []
 	for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
-		monthNames.push(utils.GetMonthNameInEnglish(i))
+		const monthNameInEnglish = utils.GetMonthNameInEnglish(i)
+		monthNames.push(monthNameInEnglish)
 	}
 </script>
 
