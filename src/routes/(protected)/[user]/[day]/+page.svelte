@@ -1,4 +1,5 @@
 <script lang='ts'>
+	import { configs } from '@/lib/configs';
 	import Layout from '@/routes/(protected)/__layout.svelte'
 
 	export let date = new Date()
@@ -7,71 +8,73 @@
 	let startY: number | null = null
 	let currentY: number | null = null
 	let selectedRange: { start: string, end: string } = { start: '', end: '' }
-	let containerRef: HTMLElement | null
+	let containerRef: HTMLDivElement | null
 
-	// 1時間ごとの時間スロットを生成
-	// 5:00から23:00までの時間スロットを生成
-	const timeSlots = Array.from({ length: 19 }, (_, i) => {
-		const hour = (5 + i) % 24
-		return `${hour.toString().padStart(2, '0')}:00`
-	})
+	const hourlyTimeSlots =  (configs.ScheduleStartTime, configs.ScheduleEndTime)
+	// // 1時間ごとの時間スロットを生成
+	// // 5:00から23:00までの時間スロットを生成
+	// const timeSlots = Array.from({ length: 19 }, (_, i) => {
+	// 	const hour = (5 + i) % 24
+	// 	return `${hour.toString().padStart(2, '0')}:00`
+	// })
 
-	// 15分ごとの時間スロットを生成
-	// 5:00から00:00までの時間スロットを生成
-	const quarterHourSlots = timeSlots.flatMap((time, index) => {
-		const [hour] = time.split(':').map(Number)
+	// // 15分ごとの時間スロットを生成
+	// // 5:00から00:00までの時間スロットを生成
+	// const quarterlyHourTimeSlots = timeSlots.flatMap((time, index) => {
+	// 	const [hour] = time.split(':').map(Number)
 
-		// 15分ごとのスロットを生成
-		// 0, 15, 30, 45分のスロットを生成
-		const slots = Array.from({ length: 4 }, (_, i) => {
-			const minutes = i * 15
-			return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
-		})
+	// 	// 15分ごとのスロットを生成
+	// 	// 0, 15, 30, 45分のスロットを生成
+	// 	const slots = Array.from({ length: 4 }, (_, i) => {
+	// 		const minutes = i * 15
+	// 		return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+	// 	})
 
-		// 最後のインデックスが23:45のため、00:00を追加
-		if (index === timeSlots.length - 1) {
-			slots.push('00:00')
-		}
+	// 	// 最後のインデックスが23:45のため、00:00を追加
+	// 	if (index === timeSlots.length - 1) {
+	// 		slots.push('00:00')
+	// 	}
 
-		return slots
-	})
+	// 	return slots
+	// })
 
 	const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]
 	const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()]
 	const day = date.getDate()
 	const formattedDate = `${dayOfWeek}, ${month} ${day}`
 
-	function yToTime(minY: number, maxY: number): [string, string] {
-		if (!containerRef)
-			return ['00:00', '00:00']
-		const containerRect = containerRef.getBoundingClientRect()
-		const containerHeight = containerRect.height
-		const containerTop = containerRect.top
-		const relativityMinY = minY - Math.floor(containerTop)
-		const relativityMaxY = maxY - Math.floor(containerTop)
+	// function yToTime(minY: number, maxY: number): [string, string] {
+	// 	if (!containerRef)
+	// 		return ['00:00', '00:00']
+	// 	const containerRect = containerRef.getBoundingClientRect()
+	// 	const containerHeight = containerRect.height
+	// 	const containerTop = containerRect.top
+	// 	const relativityMinY = minY - Math.floor(containerTop)
+	// 	const relativityMaxY = maxY - Math.floor(containerTop)
 
-		let slotIndexMinY = Math.floor(relativityMinY / (Math.floor(containerHeight) / (quarterHourSlots.length - 1)))
-		let slotIndexMaxY = Math.ceil(relativityMaxY / (Math.floor(containerHeight) / (quarterHourSlots.length - 1)))
+	// 	let slotIndexMinY = Math.floor(relativityMinY / (Math.floor(containerHeight) / (quarterlyHourTimeSlots.length - 1)))
+	// 	let slotIndexMaxY = Math.ceil(relativityMaxY / (Math.floor(containerHeight) / (quarterlyHourTimeSlots.length - 1)))
 
-		const lastValidIndex = quarterHourSlots.length - 1
+	// 	const lastValidIndex = quarterlyHourTimeSlots.length - 1
 
-		if (slotIndexMinY === slotIndexMaxY) {
-			slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterHourSlots.length - 1)
-		}
+	// 	if (slotIndexMinY === slotIndexMaxY) {
+	// 		slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterlyHourTimeSlots.length - 1)
+	// 	}
 
-		if (slotIndexMinY > lastValidIndex) {
-			slotIndexMinY = lastValidIndex
-		}
-		if (slotIndexMaxY > lastValidIndex) {
-			return [quarterHourSlots[lastValidIndex], quarterHourSlots[lastValidIndex]]
-		}
+	// 	if (slotIndexMinY > lastValidIndex) {
+	// 		slotIndexMinY = lastValidIndex
+	// 	}
+	// 	if (slotIndexMaxY > lastValidIndex) {
+	// 		return [quarterlyHourTimeSlots[lastValidIndex], quarterlyHourTimeSlots[lastValidIndex]]
+	// 	}
 
-		if (slotIndexMinY === slotIndexMaxY) {
-			slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterHourSlots.length - 1)
-		}
+	// 	if (slotIndexMinY === slotIndexMaxY) {
+	// 		slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterlyHourTimeSlots.length - 1)
+	// 	}
 
-		return [quarterHourSlots[slotIndexMinY], quarterHourSlots[slotIndexMaxY]]
-	}
+	// 	return [quarterlyHourTimeSlots[slotIndexMinY], quarterlyHourTimeSlots[slotIndexMaxY]]
+	// }
+
 
 	function handleMouseDown(e) {
 		selecting = true
@@ -102,7 +105,8 @@
 		const minY = Math.min(startY, currentY)
 		const maxY = Math.max(startY, currentY)
 
-		const [startTime, endTime] = yToTime(minY, maxY)
+		// const [startTime, endTime] = yToTime(minY, maxY)
+		const [startTime, endTime] = CalculateTimeFromY(minY, maxY, containerRef, quarterlyHourTimeSlots)
 
 		selectedRange = {
 			start: startTime,
@@ -156,13 +160,13 @@
 		const containerHeight = containerRect.height
 
 		// Find indices of start and end times
-		const startIndex = quarterHourSlots.indexOf(selectedRange.start)
-		const endIndex = quarterHourSlots.indexOf(selectedRange.end)
+		const startIndex = quarterlyHourTimeSlots.indexOf(selectedRange.start)
+		const endIndex = quarterlyHourTimeSlots.indexOf(selectedRange.end)
 
 		if (startIndex === -1 || endIndex === -1)
 			return { display: 'none' }
 
-		const slotHeight = Math.floor(containerHeight) / (quarterHourSlots.length - 1)
+		const slotHeight = Math.floor(containerHeight) / (quarterlyHourTimeSlots.length - 1)
 		const top = startIndex * slotHeight
 		const height = (endIndex - startIndex) * slotHeight
 
@@ -188,7 +192,7 @@
 
 			<div class='flex'>
 				<div class='w-16 pr-2 pt-9.5'>
-					{#each timeSlots.slice(1) as time}
+					{#each hourlyTimeSlots.slice(1) as time}
 						<div class='h-20 flex items-center justify-end'>
 							<span class='text-sm text-gray-500'>{time}</span>
 						</div>
@@ -206,7 +210,7 @@
 						role='button'
 						tabindex='0'
 					>
-						{#each timeSlots}
+						{#each hourlyTimeSlots}
 							<div class='h-20 border-b border-dotted border-gray-200 relative'></div>
 						{/each}
 

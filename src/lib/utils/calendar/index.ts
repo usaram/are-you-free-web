@@ -1,4 +1,7 @@
+export { CalculateTimeFromY } from './CalculateTimeFromY'
 export { GenerateCalendar } from './GenerateCalendar'
+export { GenerateHourlyTimeSlots } from './GenerateHourlyTimeSlots'
+export { GenerateQuarterlyHourTimeSlots } from './GenerateQuarterlyHourTimeSlots'
 export { GetMonthNameInEnglish } from './GetMonthNameInEnglish.ts'
 export { GetYearMonth } from './GetYearMonth'
 export { NextMonth } from './NextMonth'
