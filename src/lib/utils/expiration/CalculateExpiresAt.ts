@@ -9,14 +9,14 @@
  */
 export function CalculateExpiresAt(nowInJST: string, expirationDay: number): number {
 	// 現在時刻 (JST) を Date オブジェクトに変換
-	const now = new Date(nowInJST);
-	if (isNaN(now.getTime())) {
-			throw new Error("Invalid date format for nowInJST");
+	const now = new Date(nowInJST)
+	if (Number.isNaN(now.getTime())) {
+		throw new TypeError('Invalid date format for nowInJST')
 	}
 
 	// 有効期限を計算 (現在時刻 + 指定された日数)
-	const expiresAt = new Date(now.getTime() + (60 * 60 * 24 * expirationDay * 1000));
+	const expiresAt = new Date(now.getTime() + (60 * 60 * 24 * expirationDay * 1000))
 
 	// 有効期限のタイムスタンプを返す
-	return expiresAt.getTime();
+	return expiresAt.getTime()
 }

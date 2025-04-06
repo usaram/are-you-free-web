@@ -1,0 +1,274 @@
+<script lang="ts">
+	import Layout from "@/routes/(protected)/__layout.svelte";
+
+  export let date = new Date();
+
+  let selecting: boolean = false;
+  let startY: number | null = null;
+  let currentY: number | null = null;
+  let selectedRange: { start: string; end: string } = { start: '', end: '' };
+  let containerRef: HTMLElement | null
+
+  // 描画用の時間スロット（5:00-00:00）を生成
+  const timeSlots = Array.from({ length: 19 }, (_, i) => {
+    const hour = (5 + i) % 24;
+    return `${hour.toString().padStart(2, '0')}:00`;
+  });
+
+	// 内部用の時間スロット（15分刻み）を生成
+	const quarterHourSlots = timeSlots.flatMap((time, index) => {
+		const [hour] = time.split(':').map(Number);
+
+		// 15分刻みのスロットを生成
+		const slots = Array.from({ length: 4 }, (_, i) => {
+			const minutes = i * 15;
+			return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+		});
+
+		// 最後のtimeSlotsの場合、00:00を追加
+		if (index === timeSlots.length - 1) {
+			slots.push("00:00");
+		}
+
+		return slots;
+	});
+
+  // Format the day display
+  const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+  const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()];
+  const day = date.getDate();
+  const formattedDate = `${dayOfWeek}, ${month} ${day}`;
+
+  // Convert Y position to time
+	function yToTime(minY: number, maxY: number): [string, string] {
+		// コンテナの初期化
+		if (!containerRef) return ["00:00", "00:00"];
+
+		// コンテナ全体の位置とサイズ
+		const containerRect = containerRef.getBoundingClientRect();
+
+		// コンテナの高さ
+		const containerHeight = containerRect.height;
+
+		// コンテナの上端の位置
+		const containerTop = containerRect.top;
+
+		// コンテナ内の1スロット（15分）の高さを計算
+		// const slotHeight = containerHeight / (quarterHourSlots.length-1);
+
+		// Y座標をコンテナ内の相対位置に変換
+		const relativityMinY = minY - Math.floor(containerTop);
+		const relativityMaxY = maxY - Math.floor(containerTop);
+
+		// スロットのインデックスを取得
+		// 開始位置は下端、終了位置は上端を基準にする
+		let slotIndexMinY = Math.floor(relativityMinY / (Math.floor(containerHeight) / (quarterHourSlots.length - 1)));
+		let slotIndexMaxY = Math.ceil(relativityMaxY / (Math.floor(containerHeight) / (quarterHourSlots.length - 1)));
+
+		const lastValidIndex = quarterHourSlots.length - 1;
+
+		if (slotIndexMinY === slotIndexMaxY) {
+			slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterHourSlots.length - 1);
+		}
+
+		if (slotIndexMinY > lastValidIndex) {
+			slotIndexMinY = lastValidIndex;
+		}
+		if (slotIndexMaxY > lastValidIndex) {
+			return [quarterHourSlots[lastValidIndex], quarterHourSlots[lastValidIndex]];
+		}
+
+		// ドラッグの開始位置と終了位置が同じ場合、スロットのインデックスを1つ増やす
+		if (slotIndexMinY === slotIndexMaxY) {
+			slotIndexMaxY = Math.min(slotIndexMinY + 1, quarterHourSlots.length - 1);
+		}
+
+		// 15分刻みのスロットに対応した時間を返す
+		return [quarterHourSlots[slotIndexMinY], quarterHourSlots[slotIndexMaxY]];
+	}
+
+  // Handle mouse down to start selection
+  function handleMouseDown(e) {
+    selecting = true;
+    const y = e.clientY;
+    setStartY(y);
+    setCurrentY(y);
+  }
+
+  // Handle mouse move during selection
+  function handleMouseMove(e) {
+    if (!selecting) return;
+    setCurrentY(e.clientY);
+  }
+
+  // Handle mouse up to end selection
+  function handleMouseUp() {
+		if (!selecting || startY === null || currentY === null) return;
+
+		selecting = false;
+
+		// Define a threshold to distinguish between click and drag
+		const threshold = 1; // 5px as an example
+		if (Math.abs(currentY - startY) < threshold) {
+			// If the movement is less than the threshold, treat it as a click and do nothing
+			startY = null;
+			currentY = null;
+			return;
+		}
+
+		// Ensure start is always before end
+		const minY = Math.min(startY, currentY);
+		const maxY = Math.max(startY, currentY);
+
+		const [startTime, endTime] = yToTime(minY, maxY);
+
+		selectedRange = {
+			start: startTime,
+			end: endTime
+		};
+	}
+
+  // Handle mouse leave
+  function handleMouseLeave() {
+    if (selecting) {
+      selecting = false;
+    }
+  }
+
+  // Set start Y with bounds checking
+  function setStartY(y) {
+    if (!containerRef) return;
+    const containerRect = containerRef.getBoundingClientRect();
+    startY = Math.max(containerRect.top, Math.min(y, containerRect.bottom));
+  }
+
+  // Set current Y with bounds checking
+  function setCurrentY(y) {
+    if (!containerRef) return;
+    const containerRect = containerRef.getBoundingClientRect();
+    currentY = Math.max(containerRect.top, Math.min(y, containerRect.bottom));
+  }
+
+  // Calculate selection overlay position and height
+  $: selectionStyle = (() => {
+    if (!selecting || startY === null || currentY === null || !containerRef)
+      return { display: 'none' };
+
+    const containerRect = containerRef.getBoundingClientRect();
+    const top = Math.min(startY, currentY) - containerRect.top;
+    const height = Math.abs(currentY - startY);
+
+    return {
+      top: `${top}px`,
+      height: `${height}px`
+    };
+  })();
+
+  // Calculate permanent selection display
+  $: selectedRangeStyle = (() => {
+    if (!selectedRange || !containerRef) return { display: 'none' };
+
+    const containerRect = containerRef.getBoundingClientRect();
+    const containerHeight = containerRect.height;
+
+    // Find indices of start and end times
+    const startIndex = quarterHourSlots.indexOf(selectedRange.start);
+    const endIndex = quarterHourSlots.indexOf(selectedRange.end);
+
+    if (startIndex === -1 || endIndex === -1) return { display: 'none' };
+
+    const slotHeight = Math.floor(containerHeight) / (quarterHourSlots.length - 1);
+    const top = startIndex * slotHeight;
+    const height = (endIndex - startIndex) * slotHeight;
+
+		return {
+      top: `${top}px`,
+      height: `${height}px`
+    };
+  })();
+</script>
+
+<Layout>
+	<div class="w-full ml-30 lg:max-w-3xl">
+		<div class="w-full bg-white shadow-sm overflow-hidden">
+			<!-- Header with date and zoom controls -->
+			<div class="bg-gray-100 p-3 flex items-center">
+				<!-- <div class="flex items-center">
+					<button
+						class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded"
+						on:click={zoomOut}
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="5" y1="12" x2="19" y2="12"></line>
+						</svg>
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded ml-1"
+						on:click={zoomIn}
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="12" y1="5" x2="12" y2="19"></line>
+							<line x1="5" y1="12" x2="19" y2="12"></line>
+						</svg>
+					</button>
+				</div> -->
+
+				<div class="flex-1 text-center">
+					<div class="text-gray-700 font-medium">{formattedDate}</div>
+					<div class="text-gray-600 text-sm">00:00:00</div>
+				</div>
+
+				<div class="w-16">
+					<!-- Placeholder to balance the layout -->
+				</div>
+			</div>
+
+			<!-- Timeline container -->
+			<div class="flex">
+				<!-- Time labels column -->
+				<div class="w-16 pr-2 pt-9.5">
+					{#each timeSlots.slice(1) as time}
+						<div class="h-20 flex items-center justify-end">
+							<span class="text-sm text-gray-500">{time}</span>
+						</div>
+					{/each}
+				</div>
+
+				<!-- Timeline with draggable area -->
+				<div class="flex-1">
+					<div
+						bind:this={containerRef}
+						class="relative"
+						on:mousedown={handleMouseDown}
+						on:mousemove={handleMouseMove}
+						on:mouseup={handleMouseUp}
+						on:mouseleave={handleMouseLeave}
+						role="button"
+						tabindex="0"
+					>
+						<!-- Hour lines -->
+						{#each timeSlots}
+							<div class="h-20 border-b border-dotted border-gray-200 relative"></div>
+						{/each}
+
+						<!-- Active selection overlay -->
+						{#if selecting && startY !== null && currentY !== null}
+							<div
+								class="absolute left-0 right-0 bg-blue-100 opacity-50 pointer-events-none"
+								style="top: {selectionStyle.top}; height: {selectionStyle.height};"
+							></div>
+						{/if}
+
+						<!-- Permanent selection display -->
+						{#if selectedRange && !selecting}
+							<div
+								class="absolute left-0 right-0 bg-blue-200 opacity-70 pointer-events-none"
+								style="top: {selectedRangeStyle.top}; height: {selectedRangeStyle.height};"
+							></div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>

@@ -1,4 +1,5 @@
 import antfu from '@antfu/eslint-config'
+import svelteParser from 'svelte-eslint-parser'
 
 export default antfu(
 	{
@@ -11,7 +12,10 @@ export default antfu(
 		ignores:    ['build/', '.svelte-kit/', 'dist/'],
 	},
 	{
-		files: ['*.svelte'],
+		files:           ['*.svelte'],
+		languageOptions: {
+			parser: svelteParser,
+		},
 		rules: {
 			'svelte/indent': [
 				'error',

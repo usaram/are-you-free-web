@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import { components } from '@/lib/components'
+	import Header from '@/lib/components/layout/public/Header.svelte';
 	import Layout from '@/routes/__layout.svelte'
 
 	export let isSignIn: boolean = false
@@ -9,7 +9,7 @@
 <Layout>
 	<!-- Header Section -->
 	<div slot='header' class='h-[10%] flex flex-none'>
-		<components.layout.public.Header {isSignIn} {isSignUp} />
+		<Header {isSignIn} {isSignUp} />
 	</div>
 
 	<!-- Main Section -->

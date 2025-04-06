@@ -1,10 +1,10 @@
 import {
 	AUTH_SECRET,
-	GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET,
 	GITHUB_CLIENT_ID,
 	GITHUB_CLIENT_SECRET,
- } from '$env/static/private'
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+} from '$env/static/private'
 
 export const env = {
 	authSecret:         AUTH_SECRET,

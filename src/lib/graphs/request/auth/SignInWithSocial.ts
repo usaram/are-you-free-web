@@ -6,9 +6,9 @@ import type {
 	SignInWithSocialInput,
 	SignInWithSocialMutation,
 } from '@/lib/graphs/generated/types'
+import type { err } from '@/lib/types'
 import { client } from '@/lib/graphs'
 import { mutation } from '@/lib/graphs/schema/mutation'
-import type { err } from '@/lib/types'
 
 export async function SignInWithSocial({
 	username,

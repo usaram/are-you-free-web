@@ -9,12 +9,13 @@
 		"checkJs": true,
 		"strict": true,
 		"noImplicitAny": false,
-		"importsNotUsedAsValues": "preserve",
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true
-	}
+	},
+	"include": ["src/**/*", "src/**/*.svelte"],
+	"exclude": ["node_modules"]
 	// Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
 	// except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
 	//

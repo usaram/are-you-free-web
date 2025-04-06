@@ -29,8 +29,6 @@ export const load: Load<Promise<{
 		holidays,
 	)
 
-	console.warn('calendar', calendar)
-
 	return {
 		calendar,
 		err: null,

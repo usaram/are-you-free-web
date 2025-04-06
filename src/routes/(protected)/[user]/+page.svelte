@@ -11,6 +11,7 @@
 		calendar: DayProps[][]
 		err:      err
 	}
+
 	stores.CalendarStore.set(data.calendar)
 	$: calendar = stores.CalendarStore
 
@@ -18,48 +19,11 @@
 	// 0: 今月、1: 来月、2: 再来月
 	let calendarOffset = 0
 
+	// カレンダーに表示する月名のリストを生成
 	const monthNames = []
 	for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
 		monthNames.push(utils.GetMonthNameInEnglish(i))
 	}
-
-// // 月を前に移動（ただし今月より前には行かない）
-	// function prevMonth() {
-	// 	if (calendarOffset > 0) {
-	// 		calendarOffset--
-	// 	}
-	// }
-
-	// // 月を次に移動（ただし再来月より後には行かない）
-	// function nextMonth() {
-	// 	if (calendarOffset < configs.CalendarDisplayMonths - 1) {
-	// 		calendarOffset++
-	// 	}
-	// }
-
-	// function getYearMonth(monthOffset: number): string {
-	// 	const date = new Date()
-	// 	date.setMonth(date.getMonth() + monthOffset)
-	// 	const year = date.getFullYear()
-	// 	const month = String(date.getMonth() + 1).padStart(2, '0') // 月を2桁にフォーマット
-	// 	return `${year} / ${month}`
-	// }
-
-	// // 月名を取得する関数
-	// function getMonthName(monthOffset: number): string {
-	// 	const date = new Date()
-	// 	date.setMonth(date.getMonth() + monthOffset)
-	// 	return date.toLocaleString('en-US', { month: 'long' })
-	// }
-
-	// 月名のリスト
-	// const monthNames = []
-	// for (let i = 0; i < configs.CalendarDisplayMonths; i++) {
-	// 	monthNames.push(getMonthName(i))
-	// }
-
-	// let calendar = stores.CalendarStore
-
 </script>
 
 <Layout>

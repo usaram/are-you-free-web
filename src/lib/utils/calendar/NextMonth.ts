@@ -9,6 +9,6 @@
  */
 export function NextMonth(monthOffset: number, calendarDisplayMonths: number) {
 	if (calendarOffset < calendarDisplayMonths - 1) {
-			calendarOffset++
+		calendarOffset++
 	}
 }

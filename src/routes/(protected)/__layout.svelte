@@ -8,7 +8,7 @@
 	</div>
 
 	<!-- Main Section -->
-	<div slot='main' class='h-[85%] flex flex-grow relative '>
+	<div slot='main' class='flex flex-grow relative '>
 		<slot />
 	</div>
 

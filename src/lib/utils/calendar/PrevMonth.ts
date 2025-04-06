@@ -8,6 +8,6 @@
  */
 export function PrevMonth(calendarOffset: number) {
 	if (calendarOffset > 0) {
-			calendarOffset--
+		calendarOffset--
 	}
 }

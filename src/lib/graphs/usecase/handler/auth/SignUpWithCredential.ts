@@ -1,4 +1,4 @@
-import { types } from '@/lib/types'
+import type { types } from '@/lib/types'
 import { goto } from '$app/navigation'
 import { service } from '@/lib/graphs/usecase/service'
 import { get } from 'svelte/store'

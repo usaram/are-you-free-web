@@ -1,5 +1,4 @@
 import type { DayProps } from '@/lib/types/DayProps'
-import type { Writable } from 'svelte/store'
 import { configs } from '@/lib/configs'
 
 export function GenerateCalendar(
