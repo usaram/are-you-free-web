@@ -7,8 +7,6 @@ export function GenerateCalendar(
 ): DayProps[][] {
 	let calendar: DayProps[][] = []
 
-	console.log('nowInJST', nowInJST)
-
 	nowInJST = new Date(nowInJST)
 	const year = nowInJST.getFullYear()
 	const month = nowInJST.getMonth()
@@ -46,10 +44,9 @@ export function GenerateCalendar(
 			const dayOfWeek = date.getDay()
 
 			// 今日の日付かどうかを判定
-			const isCurrentDay
-                = date.getDate() === nowInJST.getDate()
-                	&& date.getMonth() === nowInJST.getMonth()
-                	&& date.getFullYear() === nowInJST.getFullYear()
+			const isCurrentDay = date.getDate() === nowInJST.getDate()
+				&& date.getMonth() === nowInJST.getMonth()
+				&& date.getFullYear() === nowInJST.getFullYear()
 
 			// 今日より前の日かどうかを判定
 			const isPastDay = date < nowInJST && !isCurrentDay
