@@ -4,7 +4,8 @@
  *
  * @param func - 実行する関数 (非同期関数も可)
  * @param wait - デバウンスの待機時間 (ミリ秒)
- * @param isLoading - ローディング状態を管理する関数 (Svelte のストアなど)
+ * @param isLoading - ローディング状態を管理するオブジェクト
+ * @param isLoading.set - ローディング状態を更新するメソッド (true: ローディング開始, false: ローディング終了)
  * @returns デバウンスされた関数
  */
 export function DebounceFunction(
