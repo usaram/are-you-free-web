@@ -12,7 +12,7 @@
 	let containerRef: HTMLDivElement | null
 
 	const hourlyTimeSlots = utils.GenerateHourlyTimeSlots(configs.ScheduleStartTime, configs.ScheduleEndTime)
-	const quarterlyHourTimeSlots = utils.GenerateQuarterlyHourTimeSlots()
+	const quarterlyHourTimeSlots = utils.GenerateQuarterlyHourTimeSlots(hourlyTimeSlots)
 	// // 1時間ごとの時間スロットを生成
 	// // 5:00から23:00までの時間スロットを生成
 	// const timeSlots = Array.from({ length: 19 }, (_, i) => {

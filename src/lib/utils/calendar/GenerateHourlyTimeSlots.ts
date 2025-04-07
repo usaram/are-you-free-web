@@ -12,14 +12,16 @@ export function GenerateHourlyTimeSlots(
 	// 開始時刻と終了時刻の差からスロットの数を計算
 	const timeSlotLength = scheduleEndHour - scheduleStartHour
 
-	// 1時間ごとの時間スロットを生成
-	const hourlyTimeSlots = Array.from({ length: timeSlotLength }, (_, i) => {
+	const hourlyTimeSlots: string[] = [] // 時間スロットの配列を初期化
+
+	// 開始時刻から終了時刻までの時間スロットを生成
+	for (let i = 0; i < timeSlotLength; i++) {
 		// 現在の時間を計算 (24時間制)
 		const hour = scheduleStartHour + i % 24
 		// 時間を "HH:00" の形式で返す
-		return `${hour.toString().padStart(2, '0')}:00`
-	})
+		const timeSlot = `${hour.toString().padStart(2, '0')}:00`
+		hourlyTimeSlots.push(timeSlot) // 時間スロットを配列に追加
+	}
 
-	// 生成された時間スロットを返す
 	return hourlyTimeSlots
 }

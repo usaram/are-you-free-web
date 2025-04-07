@@ -5,13 +5,7 @@ import { configs } from '@/lib/configs'
  *
  * @returns 15分ごとの時間スロットの配列 (例: ["05:00", "05:15", "05:30", ...])
  */
-export function GenerateQuarterlyHourTimeSlots(): string[] {
-	// 1時間ごとの時間スロットを生成
-	const hourlyTimeSlots = GenerateHourlyTimeSlots(
-		configs.ScheduleStartTime, // スケジュールの開始時刻 (例: 5)
-		configs.ScheduleEndTime, // スケジュールの終了時刻 (例: 23)
-	)
-
+export function GenerateQuarterlyHourTimeSlots(hourlyTimeSlots: string[]): string[] {
 	// 15分ごとの時間スロットを生成
 	const quarterlyHourTimeSlots = hourlyTimeSlots.flatMap((time, index) => {
 		// 時間部分を取得 (例: "05:00" -> 5)
