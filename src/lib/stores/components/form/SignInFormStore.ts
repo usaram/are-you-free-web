@@ -1,7 +1,7 @@
-import type { types } from '@/lib/types'
+import type { SignInFormStoreProps } from '@/lib/types/SignInFormStoreProps'
 import { writable } from 'svelte/store'
 
-export const SignInFormStore: types.stores.SignInFormStoreProps = {
+export const SignInFormStore: SignInFormStoreProps = {
 	email:    writable(''),
 	password: writable(''),
 }
