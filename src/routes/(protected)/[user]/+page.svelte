@@ -84,7 +84,7 @@
 			</div>
 
 			<!-- カレンダーグリッド -->
-			<div class='bg-gray-50 rounded-xl p-4'>
+			<div class='bg-slate-50 rounded-xl p-4'>
 				<div class='grid grid-cols-7 gap-2'>
 					<!-- 曜日名 -->
 					{#each configs.weekdays as day, i}
@@ -100,7 +100,8 @@
 						<button
 							class='relative aspect-square flex flex-col items-center justify-center rounded-lg'
 							class:bg-white={!isPastDay && day !== 0}
-							class:hover:bg-neutral-200={!isPastDay && day !== 0}
+							class:hover:bg-lime-200={!isPastDay && day !== 0}
+							class:bg-slate-200={isPastDay}
 							class:cursor-not-allowed={isPastDay}
 							class:shadow-sm={day !== 0}
 							class:hover:shadow-lg={!isPastDay && day !== 0}
@@ -108,7 +109,6 @@
 							class:ring-indigo-500={isCurrentDay}
 							class:text-red-500={isHoliday || (isWeekend && i % 7 === 0)}
 							class:text-blue-500={(!isHoliday && isWeekend && i % 7 === 6)}
-							class:bg-red-50={isHoliday && !isCurrentDay}
 							disabled={isPastDay}
 						>
 							<span class='text-md font-medium'>{day || ''}</span>
