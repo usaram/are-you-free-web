@@ -1,26 +1,10 @@
-import Clock1 from '@/lib/components/icon/clock/Clock1.svelte'
-import Clock2 from '@/lib/components/icon/clock/Clock2.svelte'
-import Clock3 from '@/lib/components/icon/clock/Clock3.svelte'
-import Clock4 from '@/lib/components/icon/clock/Clock4.svelte'
-import Clock5 from '@/lib/components/icon/clock/Clock5.svelte'
-import Clock6 from '@/lib/components/icon/clock/Clock6.svelte'
-import Clock7 from '@/lib/components/icon/clock/Clock7.svelte'
-import Clock8 from '@/lib/components/icon/clock/Clock8.svelte'
-import Clock9 from '@/lib/components/icon/clock/Clock9.svelte'
-import Clock from '@/lib/components/icon/clock/Clock.svelte'
-import ClockAlert from '@/lib/components/icon/clock/ClockAlert.svelte'
-
-export const icon = {
-	// clock
-	Clock,
-	Clock1,
-	Clock2,
-	Clock3,
-	Clock4,
-	Clock5,
-	Clock6,
-	Clock7,
-	Clock8,
-	Clock9,
-	ClockAlert,
-}
+export { default as Clock1 } from './clock/Clock1.svelte'
+export { default as Clock2 } from './clock/Clock2.svelte'
+export { default as Clock3 } from './clock/Clock3.svelte'
+export { default as Clock4 } from './clock/Clock4.svelte'
+export { default as Clock5 } from './clock/Clock5.svelte'
+export { default as Clock6 } from './clock/Clock6.svelte'
+export { default as Clock7 } from './clock/Clock7.svelte'
+export { default as Clock8 } from './clock/Clock8.svelte'
+export { default as Clock9 } from './clock/Clock9.svelte'
+export { default as ClockAlert } from './clock/ClockAlert.svelte'

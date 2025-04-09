@@ -1,5 +1,4 @@
 import { CalendarStore } from '@/lib/stores/components/calendar/CalendarStore'
-import { DayStore } from '@/lib/stores/components/calendar/DayStore'
 import { TimeSlotStore } from '@/lib/stores/components/calendar/TimeSlotStore'
 import { SignInFormStore } from '@/lib/stores/components/form/SignInFormStore'
 import { SignUpFormStore } from '@/lib/stores/components/form/SignUpFormStore'
@@ -10,7 +9,6 @@ export const stores = {
 	// components
 	// * calendar
 	CalendarStore,
-	DayStore,
 	TimeSlotStore,
 	// * form
 	SignInFormStore,

@@ -1,11 +1,4 @@
-import GitHubIcon from '@/lib/components/asset/GitHubIcon.svelte'
-import GoogleIcon from '@/lib/components/asset/GoogleIcon.svelte'
-import Logo from '@/lib/components/asset/Logo.svelte'
-import XIcon from '@/lib/components/asset/XIcon.svelte'
-
-export const asset = {
-	Logo,
-	GitHubIcon,
-	GoogleIcon,
-	XIcon,
-}
+export { default as GitHubIcon } from './GitHubIcon.svelte'
+export { default as GoogleIcon } from './GoogleIcon.svelte'
+export { default as Logo } from './Logo.svelte'
+export { default as XIcon } from './XIcon.svelte'

@@ -10,35 +10,35 @@
 	<div class='w-[50%] h-[90%] mt-10 mx-auto shadow-lg rounded-lg border border-neutral-200'>
 		<form class='w-[60%] flex flex-col m-auto'>
 			<div class='text-center mb-8'>
-				<div class='mt-20 flex flex-col items-center'>
-					<components.asset.Logo />
+				<div class='mt-12 flex flex-col items-center'>
+					<components.Logo />
 				</div>
 				<h1 class='text-2xl font-bold text-sky-800 mt-6'>
 					Sign in to Are you free?
 				</h1>
 			</div>
 
-			<components.form.Input
+			<components.Input
 				id='email'
 				label='Email'
 				type='email'
 				placeholder='Email Address'
-				value={stores.components.form.SignInFormStore.email}
+				value={stores.SignInFormStore.email}
 			/>
-			<components.form.Input
+			<components.Input
 				id='password'
 				label='Password'
 				type='password'
 				placeholder='Password'
-				value={stores.components.form.SignInFormStore.password}
+				value={stores.SignInFormStore.password}
 			/>
 			<div class='mt-4'>
-				<components.button.SecondaryButton
+				<components.SecondaryButton
 					name='Sign In'
 					height='h-10'
 					width='w-full'
 					type='submit'
-					onclick={() => handler.SignInWithCredential(stores.components.form.SignInFormStore)}
+					onclick={() => handler.SignInWithCredential(stores.SignInFormStore)}
 				/>
 			</div>
 		</form>
@@ -53,8 +53,8 @@
 					<div
 						slot='submitButton'
 					>
-						<components.button.WithIconButton
-							icon={components.asset.GoogleIcon}
+						<components.WithIconButton
+							icon={components.GoogleIcon}
 							height='h-10'
 							width='w-32'
 							type='button'
@@ -72,8 +72,8 @@
 					<div
 						slot='submitButton'
 					>
-						<components.button.WithIconButton
-							icon={components.asset.GitHubIcon}
+						<components.WithIconButton
+							icon={components.GitHubIcon}
 							iconColor='text-white'
 							height='h-10'
 							width='w-32'

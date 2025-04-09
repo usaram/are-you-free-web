@@ -32,13 +32,13 @@
 
 <div class='flex justify-end w-full py-6'>
 	<div class='flex space-x-4 mr-10'>
-		<components.button.PrimaryButton
+		<components.PrimaryButton
 			name={primaryButtonName}
 			height='h-10'
 			width='w-20'
 			onclick={() => { goto(primaryButtonPath) }}
 		/>
-		<components.button.SecondaryButton
+		<components.SecondaryButton
 			name={secondaryButtonName}
 			height='h-10'
 			width='w-20'

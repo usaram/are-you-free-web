@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import Header from '@/lib/components/layout/public/Header.svelte'
+	import Header from '@/lib/layout/public/Header.svelte'
 	import Layout from '@/routes/__layout.svelte'
 
 	export let isSignIn: boolean = false

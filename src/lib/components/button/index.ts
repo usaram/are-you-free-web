@@ -1,9 +1,3 @@
-import PrimaryButton from '@/lib/components/button/PrimaryButton.svelte'
-import SecondaryButton from '@/lib/components/button/SecondaryButton.svelte'
-import WithIconButton from '@/lib/components/button/WithIconButton.svelte'
-
-export const button = {
-	PrimaryButton,
-	SecondaryButton,
-	WithIconButton,
-}
+export { default as PrimaryButton } from './PrimaryButton.svelte'
+export { default as SecondaryButton } from './SecondaryButton.svelte'
+export { default as WithIconButton } from './WithIconButton.svelte'
