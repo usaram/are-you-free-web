@@ -1,5 +1,5 @@
 {
-	"eslint.experimental.useFlatConfig": true,
+	// "eslint.experimental.useFlatConfig": true,
 
 	// Disable the default formatter, use eslint instead
 	"prettier.enable": false,

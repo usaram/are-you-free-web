@@ -5,6 +5,7 @@
 	import { stores } from '@/lib/stores'
 	import { utils } from '@/lib/utils'
 	import Layout from '@/routes/(protected)/__layout.svelte'
+	import { goto } from '$app/navigation';
 
 	// サーバーサイドでデータを取得する
 	export let data: {
@@ -96,7 +97,7 @@
 					{/each}
 
 					<!-- カレンダーの日付 -->
-					{#each $calendar[calendarOffset] as { day, isCurrentDay, isPastDay, isWeekend, isHoliday }, i}
+					{#each $calendar[calendarOffset] as { year, month, day, isCurrentDay, isPastDay, isWeekend, isHoliday }, i}
 						<button
 							class='relative aspect-square flex flex-col items-center justify-center rounded-lg'
 							class:bg-white={!isPastDay && day !== 0}
@@ -110,6 +111,7 @@
 							class:text-red-500={isHoliday || (isWeekend && i % 7 === 0)}
 							class:text-blue-500={(!isHoliday && isWeekend && i % 7 === 6)}
 							disabled={isPastDay}
+							on:click={() => goto(`/${year}${month}${day}`)}
 						>
 							<span class='text-md font-medium'>{day || ''}</span>
 							{#if isCurrentDay}
